@@ -146,7 +146,7 @@ public interface Variables {
     int FOOD_COST_MAGICTOWER = 5000;
     int WOOD_COST_MAGICTOWER = 10000;
     int IRON_COST_MAGICTOWER = 12000;
-
+    
     // =========================
     // DAÑO BASE DE UNIDADES ATAQUE
     // =========================
