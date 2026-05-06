@@ -2,11 +2,11 @@ package civilizations;
 
 public abstract class AtackUnity implements MilitaryUnit, Variables {
 
-    private int armor;
-    private int initialArmor;
-    private int baseDamage;
-    private int experience;
-    private boolean sanctified;
+    int armor;
+    int initialArmor;
+    int baseDamage;
+    int experience;
+    boolean sanctified;
 
     public AtackUnity(int armor, int baseDamage) {
         this.armor = armor;
@@ -15,5 +15,10 @@ public abstract class AtackUnity implements MilitaryUnit, Variables {
         this.experience = 0;
         this.sanctified = false;
     }
+
+	public int getInitialArmor() {
+		return initialArmor;
+	}
+    
     
 }

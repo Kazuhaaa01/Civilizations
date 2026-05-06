@@ -1,85 +1,62 @@
 package civilizations;
 
-public class Swordsman extends AtackUnity implements Variables{
-	
-	public Swordsman(int armor, int baseDamage) {
-		super(armor, baseDamage);
-	}
+public class Swordsman extends AtackUnity implements Variables {
 
-	
-	
-	
-	//METODOS DE INTERFICE
-	@Override
-	public int attack() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public Swordsman(int armor, int baseDamage) {
+        super(armor, baseDamage);
+        this.initialArmor = armor;
+    }
 
-	@Override
-	public void takeDamage(int receivedDamage) {
-		// TODO Auto-generated method stub
-		
-	}
+    public Swordsman() {
+        super(ARMOR_SWORDSMAN, BASE_DAMAGE_SWORDSMAN);
+        this.initialArmor = ARMOR_SWORDSMAN;
+    }
 
-	@Override
-	public int getActualArmor() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public int attack() {
+        return this.baseDamage + (this.baseDamage * PLUS_ATTACK_UNIT_PER_EXPERIENCE_POINT * this.experience) / 100;
+    }
 
-	@Override
-	public int getFoodCost() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public void takeDamage(int receivedDamage) {
+        this.armor -= receivedDamage;
+    }
 
-	@Override
-	public int getWoodCost() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public int getActualArmor() {
+        return this.armor;
+    }
 
-	@Override
-	public int getIronCost() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public int getFoodCost() {
+        return FOOD_COST_SWORDSMAN;
+    }
 
-	@Override
-	public int getManaCost() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public int getWoodCost() {
+        return WOOD_COST_SWORDSMAN;
+    }
 
-	@Override
-	public int getChanceGeneratinWaste() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public int getIronCost() {
+        return IRON_COST_SWORDSMAN;
+    }
 
-	@Override
-	public int getChanceAttackAgain() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public int getManaCost() {
+        return MANA_COST_SWORDSMAN;
+    }
 
-	@Override
-	public void resetArmor() {
-		// TODO Auto-generated method stub
-		
-	}
+    public int getChanceGeneratinWaste() {
+        return CHANCE_GENERATNG_WASTE_SWORDSMAN;
+    }
 
-	@Override
-	public void setExperience(int n) {
-		// TODO Auto-generated method stub
-		
-	}
+    public int getChanceAttackAgain() {
+        return CHANCE_ATTACK_AGAIN_SWORDSMAN;
+    }
 
-	@Override
-	public int getExperience() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public void resetArmor() {
+        this.armor = this.initialArmor;
+    }
 
+    public void setExperience(int n) {
+        this.experience = n;
+    }
+
+    public int getExperience() {
+        return this.experience;
+    }
 }
