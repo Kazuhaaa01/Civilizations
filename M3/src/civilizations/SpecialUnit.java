@@ -2,13 +2,13 @@ package civilizations;
 
 public abstract class SpecialUnit implements MilitaryUnit, Variables {
 
-	private int armor;
-	private int initialArmor;
-	private int baseDamage;
-	private int experience;
+	int armor;
+	int initialArmor;
+	int baseDamage;
+	int experience;
 	
 	
-	 public SpecialUnit(int baseDamage) {
+	 public SpecialUnit(int armor, int baseDamage) {
 	        this.armor = 0;
 	        this.initialArmor = 0;
 	        this.baseDamage = baseDamage;
