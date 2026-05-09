@@ -100,10 +100,8 @@ public class Battle implements Variables {
     /*
         MAIN ATTACK LOGIC
      */
-    private void attack(ArrayList<MilitaryUnit> attackers,
-                        ArrayList<MilitaryUnit> defenders,
-                        boolean civilizationAttack) {
-
+    private void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> defenders, boolean civilizationAttack) {
+    	
         if (attackers.isEmpty() || defenders.isEmpty()) {
             return;
         }
@@ -112,17 +110,14 @@ public class Battle implements Variables {
 
         if (civilizationAttack) {
 
-            attackerGroup =
-                    getGroupAttacker(CHANCE_ATTACK_CIVILIZATION_UNITS);
+            attackerGroup = getGroupAttacker(CHANCE_ATTACK_CIVILIZATION_UNITS);
 
         } else {
 
-            attackerGroup =
-                    getGroupAttacker(CHANCE_ATTACK_ENEMY_UNITS);
+            attackerGroup = getGroupAttacker(CHANCE_ATTACK_ENEMY_UNITS);
         }
 
-        MilitaryUnit attacker =
-                getRandomUnitByGroup(attackers, attackerGroup);
+        MilitaryUnit attacker = getRandomUnitByGroup(attackers, attackerGroup);
 
         if (attacker == null) {
             return;
@@ -130,8 +125,7 @@ public class Battle implements Variables {
 
         int defenderGroup = getGroupDefender(defenders);
 
-        MilitaryUnit defender =
-                getRandomUnitByGroup(defenders, defenderGroup);
+        MilitaryUnit defender = getRandomUnitByGroup(defenders, defenderGroup);
 
         if (defender == null) {
             return;
@@ -151,11 +145,9 @@ public class Battle implements Variables {
             battleDevelopment += "Attacks Enemy Army: ";
         }
         
-        battleDevelopment +=
-                attacker.getClass().getSimpleName() + " attacks " + defender.getClass().getSimpleName() + "\n";
+        battleDevelopment += attacker.getClass().getSimpleName() + " attacks " + defender.getClass().getSimpleName() + "\n";
 
-        battleDevelopment +=
-                attacker.getClass().getSimpleName() + " generates damage = " + damage + "\n";
+        battleDevelopment += attacker.getClass().getSimpleName() + " generates damage = " + damage + "\n";
 
         battleDevelopment += defender.getClass().getSimpleName() + " stays with armor = " + defender.getActualArmor() + "\n";
 
@@ -190,16 +182,11 @@ public class Battle implements Variables {
      */
     private boolean battleFinished() {
 
-        int civilizationPercentage =
-                civilizationArmy.size() * 100
-                        / initialNumberUnitsCivilization;
+        int civilizationPercentage = civilizationArmy.size() * 100 / initialNumberUnitsCivilization;
 
-        int enemyPercentage =
-                enemyArmy.size() * 100
-                        / initialNumberUnitsEnemy;
+        int enemyPercentage = enemyArmy.size() * 100 / initialNumberUnitsEnemy;
 
-        return civilizationPercentage <= 20
-                || enemyPercentage <= 20;
+        return civilizationPercentage <= 20 || enemyPercentage <= 20;
     }
 
     /*
@@ -271,30 +258,18 @@ public class Battle implements Variables {
                 initialCostFleet[0][2]
                         - civilizationActual[2];
 
-        resourcesLosses[0][3] =
-                resourcesLosses[0][2]
-                        + resourcesLosses[0][1] * 5
-                        + resourcesLosses[0][0] * 10;
+        resourcesLosses[0][3] = resourcesLosses[0][2] + resourcesLosses[0][1] * 5 + resourcesLosses[0][0] * 10;
 
         /*
             ENEMY LOSSES
         */
-        resourcesLosses[1][0] =
-                initialCostFleet[1][0]
-                        - enemyActual[0];
+        resourcesLosses[1][0] = initialCostFleet[1][0] - enemyActual[0];
 
-        resourcesLosses[1][1] =
-                initialCostFleet[1][1]
-                        - enemyActual[1];
+        resourcesLosses[1][1] = initialCostFleet[1][1] - enemyActual[1];
 
-        resourcesLosses[1][2] =
-                initialCostFleet[1][2]
-                        - enemyActual[2];
+        resourcesLosses[1][2] = initialCostFleet[1][2] - enemyActual[2];
 
-        resourcesLosses[1][3] =
-                resourcesLosses[1][2]
-                        + resourcesLosses[1][1] * 5
-                        + resourcesLosses[1][0] * 10;
+        resourcesLosses[1][3] = resourcesLosses[1][2] + resourcesLosses[1][1] * 5 + resourcesLosses[1][0] * 10;
     }
 
     /*
@@ -306,13 +281,9 @@ public class Battle implements Variables {
 
         if (random < unit.getChanceGeneratinWaste()) {
 
-            wasteWoodIron[0] +=
-                    unit.getWoodCost()
-                            * PERCENTAGE_WASTE / 100;
+            wasteWoodIron[0] += unit.getWoodCost() * PERCENTAGE_WASTE / 100;
 
-            wasteWoodIron[1] +=
-                    unit.getIronCost()
-                            * PERCENTAGE_WASTE / 100;
+            wasteWoodIron[1] += unit.getIronCost() * PERCENTAGE_WASTE / 100;
 
             battleDevelopment += "Waste generated!\n";
         }
