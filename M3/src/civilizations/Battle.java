@@ -7,8 +7,8 @@ public class Battle implements Variables {
     private ArrayList<MilitaryUnit> civilizationArmy;
     private ArrayList<MilitaryUnit> enemyArmy;
 
-    private StringBuilder battleDevelopment;
-
+    private String battleDevelopment;
+    
     private int initialNumberUnitsCivilization;
     private int initialNumberUnitsEnemy;
 
@@ -48,7 +48,7 @@ public class Battle implements Variables {
         this.civilizationArmy = civilizationArmy;
         this.enemyArmy = enemyArmy;
 
-        battleDevelopment = new StringBuilder();
+        battleDevelopment = "";
 
         wasteWoodIron = new int[2];
 
@@ -74,15 +74,11 @@ public class Battle implements Variables {
 
         boolean civilizationTurn = Math.random() < 0.5;
 
-        battleDevelopment.append(
-                "################ BATTLE START ################\n\n"
-        );
+        battleDevelopment += "################ BATTLE START ################\n\n";
 
         while (!battleFinished()) {
 
-            battleDevelopment.append(
-                    "**************** CHANGE ATTACKER ****************\n"
-            );
+            battleDevelopment += "**************** CHANGE ATTACKER ****************\n";
 
             if (civilizationTurn) {
 
@@ -98,9 +94,7 @@ public class Battle implements Variables {
 
         updateResourcesLosses();
 
-        battleDevelopment.append(
-                "\n################ BATTLE END ################\n"
-        );
+        battleDevelopment += "\n################ BATTLE END ################\n";
     }
 
     /*
@@ -152,50 +146,28 @@ public class Battle implements Variables {
          */
         if (civilizationAttack) {
 
-            battleDevelopment.append(
-                    "Attacks Civilization Army: "
-            );
-
+            battleDevelopment += "Attacks Civilization Army: ";
         } else {
-
-            battleDevelopment.append(
-                    "Attacks Enemy Army: "
-            );
+            battleDevelopment += "Attacks Enemy Army: ";
         }
+        
+        battleDevelopment +=
+                attacker.getClass().getSimpleName() + " attacks " + defender.getClass().getSimpleName() + "\n";
 
-        battleDevelopment.append(
-                attacker.getClass().getSimpleName()
-                        + " attacks "
-                        + defender.getClass().getSimpleName()
-                        + "\n"
-        );
+        battleDevelopment +=
+                attacker.getClass().getSimpleName() + " generates damage = " + damage + "\n";
 
-        battleDevelopment.append(
-                attacker.getClass().getSimpleName()
-                        + " generates damage = "
-                        + damage
-                        + "\n"
-        );
-
-        battleDevelopment.append(
-                defender.getClass().getSimpleName()
-                        + " stays with armor = "
-                        + defender.getActualArmor()
-                        + "\n"
-        );
+        battleDevelopment += defender.getClass().getSimpleName() + " stays with armor = " + defender.getActualArmor() + "\n";
 
         /*
             UNIT DEAD
-         */
+        */
+        
         if (defender.getActualArmor() <= 0) {
 
             defenders.remove(defender);
 
-            battleDevelopment.append(
-                    "We eliminate "
-                            + defender.getClass().getSimpleName()
-                            + "\n"
-            );
+            battleDevelopment += "We eliminate " + defender.getClass().getSimpleName() + "\n";
 
             generateWaste(defender);
         }
@@ -207,10 +179,7 @@ public class Battle implements Variables {
 
         if (random < attacker.getChanceAttackAgain()) {
 
-            battleDevelopment.append(
-                    attacker.getClass().getSimpleName()
-                            + " attacks again!\n"
-            );
+            battleDevelopment += attacker.getClass().getSimpleName() + " attacks again!\n";
 
             attack(attackers, defenders, civilizationAttack);
         }
@@ -309,7 +278,7 @@ public class Battle implements Variables {
 
         /*
             ENEMY LOSSES
-         */
+        */
         resourcesLosses[1][0] =
                 initialCostFleet[1][0]
                         - enemyActual[0];
@@ -345,15 +314,14 @@ public class Battle implements Variables {
                     unit.getIronCost()
                             * PERCENTAGE_WASTE / 100;
 
-            battleDevelopment.append(
-                    "Waste generated!\n"
-            );
+            battleDevelopment += "Waste generated!\n";
         }
     }
 
     /*
         GET GROUP ATTACKER
-     */
+    */
+    
     private int getGroupAttacker(int[] probabilities) {
 
         int total = 0;
@@ -380,7 +348,8 @@ public class Battle implements Variables {
 
     /*
         GET GROUP DEFENDER
-     */
+    */
+    
     private int getGroupDefender(ArrayList<MilitaryUnit> army) {
 
         int[] groups = countUnitsByType(army);
@@ -477,7 +446,7 @@ public class Battle implements Variables {
 
     /*
         RESET ARMOR
-     */
+    */
     public void resetArmyArmor() {
 
         for (MilitaryUnit unit : civilizationArmy) {
@@ -491,7 +460,7 @@ public class Battle implements Variables {
 
     /*
         WINNER
-     */
+    */
     public String getWinner() {
 
         if (resourcesLosses[0][3]
@@ -508,7 +477,7 @@ public class Battle implements Variables {
      */
     public String getBattleDevelopment() {
 
-        return battleDevelopment.toString();
+        return battleDevelopment;
     }
 
     /*
@@ -516,91 +485,37 @@ public class Battle implements Variables {
      */
     public String getBattleReport(int battleNumber) {
 
-        StringBuilder report = new StringBuilder();
+        String report = "";
 
-        report.append(
-                "BATTLE NUMBER: "
-                        + battleNumber
-                        + "\n\n"
-        );
+        report += "BATTLE NUMBER: " + battleNumber + "\n\n";
 
-        report.append(
-                "################ BATTLE STATISTICS ################\n\n"
-        );
+        report += "################ BATTLE STATISTICS ################\n\n";
 
-        report.append(
-                "Civilization remaining units: "
-                        + civilizationArmy.size()
-                        + "\n"
-        );
+        report += "Civilization remaining units: " + civilizationArmy.size() + "\n";
 
-        report.append(
-                "Enemy remaining units: "
-                        + enemyArmy.size()
-                        + "\n\n"
-        );
+        report += "Enemy remaining units: " + enemyArmy.size() + "\n\n";
 
-        report.append(
-                "################ LOSSES ################\n\n"
-        );
+        report += "################ LOSSES ################\n\n";
 
-        report.append(
-                "Civilization Food Losses: "
-                        + resourcesLosses[0][0]
-                        + "\n"
-        );
+        report += "Civilization Food Losses: " + resourcesLosses[0][0] + "\n";
 
-        report.append(
-                "Civilization Wood Losses: "
-                        + resourcesLosses[0][1]
-                        + "\n"
-        );
+        report += "Civilization Wood Losses: " + resourcesLosses[0][1] + "\n";
 
-        report.append(
-                "Civilization Iron Losses: "
-                        + resourcesLosses[0][2]
-                        + "\n\n"
-        );
+        report += "Civilization Iron Losses: " + resourcesLosses[0][2] + "\n\n";
 
-        report.append(
-                "Enemy Food Losses: "
-                        + resourcesLosses[1][0]
-                        + "\n"
-        );
+        report += "Enemy Food Losses: " + resourcesLosses[1][0] + "\n";
 
-        report.append(
-                "Enemy Wood Losses: "
-                        + resourcesLosses[1][1]
-                        + "\n"
-        );
+        report += "Enemy Wood Losses: " + resourcesLosses[1][1] + "\n";
 
-        report.append(
-                "Enemy Iron Losses: "
-                        + resourcesLosses[1][2]
-                        + "\n\n"
-        );
+        report += "Enemy Iron Losses: " + resourcesLosses[1][2] + "\n\n";
 
-        report.append(
-                "################ WASTE ################\n\n"
-        );
+        report += "################ WASTE ################\n\n";
 
-        report.append(
-                "Wood: "
-                        + wasteWoodIron[0]
-                        + "\n"
-        );
+        report += "Wood: " + wasteWoodIron[0] + "\n";
 
-        report.append(
-                "Iron: "
-                        + wasteWoodIron[1]
-                        + "\n\n"
-        );
+        report += "Iron: " + wasteWoodIron[1] + "\n\n";
 
-        report.append(
-                "Winner: "
-                        + getWinner()
-                        + "\n"
-        );
+        report += "Winner: " + getWinner() + "\n";
 
         return report.toString();
     }
