@@ -42,8 +42,7 @@ public class Battle implements Variables {
      */
     private int[][] resourcesLosses;
 
-    public Battle(ArrayList<MilitaryUnit> civilizationArmy,
-                  ArrayList<MilitaryUnit> enemyArmy) {
+    public Battle(ArrayList<MilitaryUnit> civilizationArmy,ArrayList<MilitaryUnit> enemyArmy) {
 
         this.civilizationArmy = civilizationArmy;
         this.enemyArmy = enemyArmy;
@@ -178,15 +177,20 @@ public class Battle implements Variables {
     }
 
     /*
-        BATTLE FINISHED?
-     */
+    BATTLE FINISHED?
+ */
     private boolean battleFinished() {
 
-        int civilizationPercentage = civilizationArmy.size() * 100 / initialNumberUnitsCivilization;
+    // Si algún bando empieza con 0 tropas, la batalla termina al instante
+    if (initialNumberUnitsCivilization == 0 || initialNumberUnitsEnemy == 0) {
+        return true; 
+    }
 
-        int enemyPercentage = enemyArmy.size() * 100 / initialNumberUnitsEnemy;
+    int civilizationPercentage = civilizationArmy.size() * 100 / initialNumberUnitsCivilization;
 
-        return civilizationPercentage <= 20 || enemyPercentage <= 20;
+    int enemyPercentage = enemyArmy.size() * 100 / initialNumberUnitsEnemy;
+
+    return civilizationPercentage <= 20 || enemyPercentage <= 20;
     }
 
     /*

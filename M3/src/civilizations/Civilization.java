@@ -5,25 +5,24 @@ import java.util.ArrayList;
 public class Civilization implements Variables{
 
 	
-	private int technologyDefense ;
-	private int technologyAtack ;
-	private int wood;
-	private int iron;
-	private int food;
-	private int mana;
-	private int magicTower;
-	private int church;
-	private int farm;
-	private int smithy;
-	//private Projecte Civilizations
-	private int carpentry;
-	private int battles;
-	private ArrayList<MilitaryUnit>[] army = new ArrayList[9];
+	int technologyDefense ;
+	int technologyAtack ;
+	int wood;
+	int iron;
+	static int food;
+	int mana;
+	int magicTower;
+	int church;
+	int farm;
+	int smithy;
+	int carpentry;
+	int battles;
+	ArrayList<MilitaryUnit>[] army = new ArrayList[9];
 	
-	private int upgradeDefenseTechnologyIronCost;
-	private int upgradeAttackTechnologyIronCost;
-	private int upgradeDefenseTechnologyWoodCost;
-	private int upgradeAttackTechnologyWoodCost;
+	int upgradeDefenseTechnologyIronCost;
+	int upgradeAttackTechnologyIronCost;
+	int upgradeDefenseTechnologyWoodCost;
+	int upgradeAttackTechnologyWoodCost;
 	
 	public Civilization() {
 	    upgradeDefenseTechnologyIronCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_IRON_COST;
@@ -134,6 +133,9 @@ public class Civilization implements Variables{
 			for (int i = 0; i < n; i++) {
 		        int armor = ARMOR_SWORDSMAN + (ARMOR_SWORDSMAN * PLUS_ARMOR_SWORDSMAN_BY_TECHNOLOGY * technologyDefense) / 100;
 		        int baseDamage = BASE_DAMAGE_SWORDSMAN + (BASE_DAMAGE_SWORDSMAN * PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY * technologyAtack) / 100;
+		        wood -= WOOD_COST_SWORDSMAN;
+		        food -= FOOD_COST_SWORDSMAN;
+		        iron -= IRON_COST_SWORDSMAN;
 		        army[0].add(new Swordsman(armor, baseDamage));
 			}	
 		}else {
@@ -147,6 +149,9 @@ public class Civilization implements Variables{
 		    for (int i = 0; i < n; i++) {
 		        int armor = ARMOR_SPEARMAN + (ARMOR_SPEARMAN * PLUS_ARMOR_SPEARMAN_BY_TECHNOLOGY * technologyDefense) / 100;
 		        int baseDamage = BASE_DAMAGE_SPEARMAN + (BASE_DAMAGE_SPEARMAN * PLUS_ATTACK_SPEARMAN_BY_TECHNOLOGY * technologyAtack) / 100;
+		        wood -= WOOD_COST_SPEARMAN;
+		        food -= FOOD_COST_SPEARMAN;
+		        iron -= IRON_COST_SPEARMAN;
 		        army[1].add(new Spearman(armor, baseDamage));
 		    }
 		}else {
@@ -161,6 +166,9 @@ public class Civilization implements Variables{
 		    for (int i = 0; i < n; i++) {
 		        int armor = ARMOR_CROSSBOW + (ARMOR_CROSSBOW * PLUS_ARMOR_CROSSBOW_BY_TECHNOLOGY * technologyDefense) / 100;
 		        int baseDamage = BASE_DAMAGE_CROSSBOW + (BASE_DAMAGE_CROSSBOW * PLUS_ATTACK_CROSSBOW_BY_TECHNOLOGY * technologyAtack) / 100;
+		        wood -= WOOD_COST_CROSSBOW;
+		        food -= FOOD_COST_CROSSBOW;
+		        iron -= IRON_COST_CROSSBOW;
 		        army[2].add(new Crossbow(armor, baseDamage));
 		    }
 		}else {
@@ -175,6 +183,9 @@ public class Civilization implements Variables{
 		    for (int i = 0; i < n; i++) {
 		        int armor = ARMOR_CANNON + (ARMOR_CANNON * PLUS_ARMOR_CANNON_BY_TECHNOLOGY * technologyDefense) / 100;
 		        int baseDamage = BASE_DAMAGE_CANNON + (BASE_DAMAGE_CANNON * PLUS_ATTACK_CANNON_BY_TECHNOLOGY * technologyAtack) / 100;
+		        wood -= WOOD_COST_CANNON;
+		        food -= FOOD_COST_CANNON;
+		        iron -= IRON_COST_CANNON;
 		        army[3].add(new Cannon(armor, baseDamage));
 		    }
 		}else {
@@ -189,6 +200,9 @@ public class Civilization implements Variables{
 			  for (int i = 0; i < n; i++) {
 			        int armor = ARMOR_ARROWTOWER + (ARMOR_ARROWTOWER * PLUS_ARMOR_ARROWTOWER_BY_TECHNOLOGY * technologyDefense) / 100;
 			        int baseDamage = BASE_DAMAGE_ARROWTOWER + (BASE_DAMAGE_ARROWTOWER * PLUS_ATTACK_ARROWTOWER_BY_TECHNOLOGY * technologyAtack) / 100;
+			        wood -= WOOD_COST_ARROWTOWER;
+			        food -= FOOD_COST_ARROWTOWER;
+			        iron -= IRON_COST_ARROWTOWER;
 			        army[4].add(new ArrowTower(armor, baseDamage));
 			    }
 		}else {
@@ -202,6 +216,9 @@ public class Civilization implements Variables{
 		    for (int i = 0; i < n; i++) {
 		        int armor = ARMOR_CATAPULT + (ARMOR_CATAPULT * PLUS_ARMOR_CATAPULT_BY_TECHNOLOGY * technologyDefense) / 100;
 		        int baseDamage = BASE_DAMAGE_CATAPULT + (BASE_DAMAGE_CATAPULT * PLUS_ATTACK_CATAPULT_BY_TECHNOLOGY * technologyAtack) / 100;
+		        wood -= WOOD_COST_CATAPULT;
+		        food -= FOOD_COST_CATAPULT;
+		        iron -= IRON_COST_CATAPULT;
 		        army[5].add(new Catapult(armor, baseDamage));
 		    }
 		}else{
@@ -216,6 +233,9 @@ public class Civilization implements Variables{
 		    for (int i = 0; i < n; i++) {
 		        int armor = ARMOR_ROCKETLAUNCHERTOWER + (ARMOR_ROCKETLAUNCHERTOWER * PLUS_ARMOR_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY * technologyDefense) / 100;
 		        int baseDamage = BASE_DAMAGE_ROCKETLAUNCHERTOWER + (BASE_DAMAGE_ROCKETLAUNCHERTOWER * PLUS_ATTACK_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY * technologyAtack) / 100;
+		        wood -= WOOD_COST_ROCKETLAUNCHERTOWER;
+		        food -= FOOD_COST_ROCKETLAUNCHERTOWER;
+		        iron -= IRON_COST_ROCKETLAUNCHERTOWER;
 		        army[6].add(new RocketLauncherTower(armor, baseDamage));
 		    }
 		}else {
@@ -233,6 +253,9 @@ public class Civilization implements Variables{
 		    for (int i = 0; i < n; i++) {
 		    	int armor = 0;
 		        int baseDamage = BASE_DAMAGE_MAGICIAN + (BASE_DAMAGE_MAGICIAN * PLUS_ATTACK_MAGICIAN_BY_TECHNOLOGY * technologyAtack) / 100;
+		        wood -= WOOD_COST_MAGICIAN;
+		        food -= FOOD_COST_MAGICIAN;
+		        iron -= IRON_COST_MAGICIAN;
 		        army[7].add(new Magician(armor, baseDamage));
 		    }
 		}else {
@@ -250,6 +273,9 @@ public class Civilization implements Variables{
 		    for (int i = 0; i < n; i++) {
 		        int armor = 0;
 		        int baseDamage = 0;
+		        wood -= WOOD_COST_PRIEST;
+		        food -= FOOD_COST_PRIEST;
+		        iron -= IRON_COST_PRIEST;
 		        army[8].add(new Priest(armor, baseDamage));
 		    }
 		}else {
@@ -313,6 +339,68 @@ public class Civilization implements Variables{
 	    System.out.printf("%15d %15d %15d %15d%n",
 	            getFoodGenerated(), getWoodGenerated(), getIronGenerated(), getManaGenerated());
 	}
+	
+	public void generarRecursos() {
+	    this.food += CIVILIZATION_FOOD_GENERATED + (this.farm * CIVILIZATION_FOOD_GENERATED_PER_FARM);
+	    this.wood += CIVILIZATION_WOOD_GENERATED + (this.carpentry * CIVILIZATION_WOOD_GENERATED_PER_CARPENTRY);
+	    this.iron += CIVILIZATION_IRON_GENERATED + (this.smithy * CIVILIZATION_IRON_GENERATED_PER_SMITHY);
+	    this.mana += (this.magicTower * CIVILIZATION_MANA_GENERATED_PER_MAGIC_TOWER);
+	    //System.out.println("Recursos ampliados");
+	}
+
+
+
+	// Pon esto en Civilization.java
+	public ArrayList<MilitaryUnit> getArmy() {
+	    ArrayList<MilitaryUnit> todoMiEjercito = new ArrayList<>();
+	    
+	    // 1. Recorremos las 9 posiciones de tu array de ejércitos
+	    for (int i = 0; i < this.army.length; i++) {
+	        
+	        // Comprobamos que esa posición no esté vacía (por si acaso)
+	        if (this.army[i] != null) {
+	            
+	            // 2. Recorremos cada tropa que haya dentro de esa lista
+	            for (int j = 0; j < this.army[i].size(); j++) {
+	                
+	                // Extraemos la tropa
+	                MilitaryUnit tropa = this.army[i].get(j);
+	                
+	                // La añadimos a nuestra lista general de una en una
+	                todoMiEjercito.add(tropa);
+	            }
+	        }
+	    }
+	    
+	    return todoMiEjercito;
+	}
+	
+	public void updateArmy(ArrayList<MilitaryUnit> supervivientes) {
+	    
+	    for (int i = 0; i < this.army.length; i++) {
+	        if (this.army[i] != null) {
+	            this.army[i].clear();
+	        } else {
+	            this.army[i] = new ArrayList<>();
+	        }
+	    }
+	    
+	    for (int i = 0; i < supervivientes.size(); i++) {
+	        MilitaryUnit unit = supervivientes.get(i);
+	        
+	        if (unit instanceof Swordsman) this.army[0].add(unit);
+	        else if (unit instanceof Spearman) this.army[1].add(unit);
+	        else if (unit instanceof Crossbow) this.army[2].add(unit);
+	        else if (unit instanceof Cannon) this.army[3].add(unit);
+	        else if (unit instanceof ArrowTower) this.army[4].add(unit);
+	        else if (unit instanceof Catapult) this.army[5].add(unit);
+	        else if (unit instanceof RocketLauncherTower) this.army[6].add(unit);
+	        else if (unit instanceof Magician) this.army[7].add(unit);
+	        else if (unit instanceof Priest) this.army[8].add(unit);
+	    }
+	}
+	
+	
 	
 	
 	
