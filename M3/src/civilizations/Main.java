@@ -65,7 +65,7 @@ public class Main extends Civilization implements Variables  {
         
         // Recuerda que para pruebas pusimos 10000 (10 segundos), 
         // pero en versión final debe ser 60000 (1 minuto).
-        timer.schedule(task, 0, 10000);
+        timer.schedule(task, 0, 60000);
                 
 
         boolean flg = true;
@@ -603,7 +603,7 @@ public class Main extends Civilization implements Variables  {
                 else if (option == 0) {
 
                     flg = false;
-
+                    task.cancel();
                     System.out.println("\nClosing game...");
                 }
 

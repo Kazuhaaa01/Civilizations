@@ -128,134 +128,171 @@ public class Civilization implements Variables{
 	
 	//---------------------------------------------------
 
+	
 	public void newSwordsman(int n) throws ResourceException {
-		if (wood >= WOOD_COST_SWORDSMAN && food >= FOOD_COST_SWORDSMAN && iron >= IRON_COST_SWORDSMAN) {
+	    int totalWoodCost = WOOD_COST_SWORDSMAN * n;
+	    int totalFoodCost = FOOD_COST_SWORDSMAN * n;
+	    int totalIronCost = IRON_COST_SWORDSMAN * n;
+
+		if (wood >= totalWoodCost && food >= totalFoodCost && iron >= totalIronCost) {
+		    wood -= totalWoodCost;
+		    food -= totalFoodCost;
+		    iron -= totalIronCost;
+		    
 			for (int i = 0; i < n; i++) {
 		        int armor = ARMOR_SWORDSMAN + (ARMOR_SWORDSMAN * PLUS_ARMOR_SWORDSMAN_BY_TECHNOLOGY * technologyDefense) / 100;
 		        int baseDamage = BASE_DAMAGE_SWORDSMAN + (BASE_DAMAGE_SWORDSMAN * PLUS_ATTACK_SWORDSMAN_BY_TECHNOLOGY * technologyAtack) / 100;
-		        wood -= WOOD_COST_SWORDSMAN;
-		        food -= FOOD_COST_SWORDSMAN;
-		        iron -= IRON_COST_SWORDSMAN;
 		        army[0].add(new Swordsman(armor, baseDamage));
 			}	
-		}else {
+		} else {
 			throw new ResourceException("No tienes recursos suficientes para crear Swordman");
 	    }
 	}
-
 	
+	
+	// ==================== 1. SPEARMAN ====================
 	public void newSpearman(int n) throws ResourceException {
-		if (wood >= WOOD_COST_SPEARMAN && food >= FOOD_COST_SPEARMAN && iron >= IRON_COST_SPEARMAN) {
-		    for (int i = 0; i < n; i++) {
+	    int totalWoodCost = WOOD_COST_SPEARMAN * n;
+	    int totalFoodCost = FOOD_COST_SPEARMAN * n;
+	    int totalIronCost = IRON_COST_SPEARMAN * n;
+
+		if (wood >= totalWoodCost && food >= totalFoodCost && iron >= totalIronCost) {
+		    wood -= totalWoodCost;
+		    food -= totalFoodCost;
+		    iron -= totalIronCost;
+		    
+			for (int i = 0; i < n; i++) {
 		        int armor = ARMOR_SPEARMAN + (ARMOR_SPEARMAN * PLUS_ARMOR_SPEARMAN_BY_TECHNOLOGY * technologyDefense) / 100;
 		        int baseDamage = BASE_DAMAGE_SPEARMAN + (BASE_DAMAGE_SPEARMAN * PLUS_ATTACK_SPEARMAN_BY_TECHNOLOGY * technologyAtack) / 100;
-		        wood -= WOOD_COST_SPEARMAN;
-		        food -= FOOD_COST_SPEARMAN;
-		        iron -= IRON_COST_SPEARMAN;
 		        army[1].add(new Spearman(armor, baseDamage));
-		    }
-		}else {
+			}	
+		} else {
 			throw new ResourceException("No tienes recursos suficientes para crear Spearman");
-		}
-
-
+	    }
 	}
 
+	// ==================== 2. CROSSBOW ====================
 	public void newCrossbow(int n) throws ResourceException {
-		if (wood >= WOOD_COST_CROSSBOW && food >= FOOD_COST_CROSSBOW && iron >= IRON_COST_CROSSBOW) {
-		    for (int i = 0; i < n; i++) {
+	    int totalWoodCost = WOOD_COST_CROSSBOW * n;
+	    int totalFoodCost = FOOD_COST_CROSSBOW * n;
+	    int totalIronCost = IRON_COST_CROSSBOW * n;
+
+		if (wood >= totalWoodCost && food >= totalFoodCost && iron >= totalIronCost) {
+		    wood -= totalWoodCost;
+		    food -= totalFoodCost;
+		    iron -= totalIronCost;
+		    
+			for (int i = 0; i < n; i++) {
 		        int armor = ARMOR_CROSSBOW + (ARMOR_CROSSBOW * PLUS_ARMOR_CROSSBOW_BY_TECHNOLOGY * technologyDefense) / 100;
 		        int baseDamage = BASE_DAMAGE_CROSSBOW + (BASE_DAMAGE_CROSSBOW * PLUS_ATTACK_CROSSBOW_BY_TECHNOLOGY * technologyAtack) / 100;
-		        wood -= WOOD_COST_CROSSBOW;
-		        food -= FOOD_COST_CROSSBOW;
-		        iron -= IRON_COST_CROSSBOW;
 		        army[2].add(new Crossbow(armor, baseDamage));
-		    }
-		}else {
+			}	
+		} else {
 			throw new ResourceException("No tienes recursos suficientes para crear Crossbow");
-		}
-
-
+	    }
 	}
 
+	// ==================== 3. CANNON ====================
 	public void newCannon(int n) throws ResourceException {
-		if (wood >= WOOD_COST_CANNON && food >= FOOD_COST_CANNON && iron >= IRON_COST_CANNON) {
-		    for (int i = 0; i < n; i++) {
+	    int totalWoodCost = WOOD_COST_CANNON * n;
+	    int totalFoodCost = FOOD_COST_CANNON * n;
+	    int totalIronCost = IRON_COST_CANNON * n;
+
+		if (wood >= totalWoodCost && food >= totalFoodCost && iron >= totalIronCost) {
+		    wood -= totalWoodCost;
+		    food -= totalFoodCost;
+		    iron -= totalIronCost;
+		    
+			for (int i = 0; i < n; i++) {
 		        int armor = ARMOR_CANNON + (ARMOR_CANNON * PLUS_ARMOR_CANNON_BY_TECHNOLOGY * technologyDefense) / 100;
 		        int baseDamage = BASE_DAMAGE_CANNON + (BASE_DAMAGE_CANNON * PLUS_ATTACK_CANNON_BY_TECHNOLOGY * technologyAtack) / 100;
-		        wood -= WOOD_COST_CANNON;
-		        food -= FOOD_COST_CANNON;
-		        iron -= IRON_COST_CANNON;
 		        army[3].add(new Cannon(armor, baseDamage));
-		    }
-		}else {
+			}	
+		} else {
 			throw new ResourceException("No tienes recursos suficientes para crear Cannon");
-		}
-
-
+	    }
 	}
 
+	// ==================== 4. ARROW TOWER ====================
 	public void newArrowTower(int n) throws ResourceException {
-		if (wood >= WOOD_COST_ARROWTOWER && food >= FOOD_COST_ARROWTOWER && iron >= IRON_COST_ARROWTOWER) {
-			  for (int i = 0; i < n; i++) {
-			        int armor = ARMOR_ARROWTOWER + (ARMOR_ARROWTOWER * PLUS_ARMOR_ARROWTOWER_BY_TECHNOLOGY * technologyDefense) / 100;
-			        int baseDamage = BASE_DAMAGE_ARROWTOWER + (BASE_DAMAGE_ARROWTOWER * PLUS_ATTACK_ARROWTOWER_BY_TECHNOLOGY * technologyAtack) / 100;
-			        wood -= WOOD_COST_ARROWTOWER;
-			        food -= FOOD_COST_ARROWTOWER;
-			        iron -= IRON_COST_ARROWTOWER;
-			        army[4].add(new ArrowTower(armor, baseDamage));
-			    }
-		}else {
-			throw new ResourceException("No tienes recursos suficientes para crear ArrowTower");
-		}
-	  
+	    int totalWoodCost = WOOD_COST_ARROWTOWER * n;
+	    int totalFoodCost = FOOD_COST_ARROWTOWER * n;
+	    int totalIronCost = IRON_COST_ARROWTOWER * n;
+
+		if (wood >= totalWoodCost && food >= totalFoodCost && iron >= totalIronCost) {
+		    wood -= totalWoodCost;
+		    food -= totalFoodCost;
+		    iron -= totalIronCost;
+		    
+			for (int i = 0; i < n; i++) {
+		        int armor = ARMOR_ARROWTOWER + (ARMOR_ARROWTOWER * PLUS_ARMOR_ARROWTOWER_BY_TECHNOLOGY * technologyDefense) / 100;
+		        int baseDamage = BASE_DAMAGE_ARROWTOWER + (BASE_DAMAGE_ARROWTOWER * PLUS_ATTACK_ARROWTOWER_BY_TECHNOLOGY * technologyAtack) / 100;
+		        army[4].add(new ArrowTower(armor, baseDamage));
+			}	
+		} else {
+			throw new ResourceException("No tienes recursos suficientes para crear Arrow Tower");
+	    }
 	}
 
+	// ==================== 5. CATAPULT ====================
 	public void newCatapult(int n) throws ResourceException {
-		if (wood >= WOOD_COST_CATAPULT && food >= FOOD_COST_CATAPULT && iron >= IRON_COST_CATAPULT) {
-		    for (int i = 0; i < n; i++) {
+	    int totalWoodCost = WOOD_COST_CATAPULT * n;
+	    int totalFoodCost = FOOD_COST_CATAPULT * n;
+	    int totalIronCost = IRON_COST_CATAPULT * n;
+
+		if (wood >= totalWoodCost && food >= totalFoodCost && iron >= totalIronCost) {
+		    wood -= totalWoodCost;
+		    food -= totalFoodCost;
+		    iron -= totalIronCost;
+		    
+			for (int i = 0; i < n; i++) {
 		        int armor = ARMOR_CATAPULT + (ARMOR_CATAPULT * PLUS_ARMOR_CATAPULT_BY_TECHNOLOGY * technologyDefense) / 100;
 		        int baseDamage = BASE_DAMAGE_CATAPULT + (BASE_DAMAGE_CATAPULT * PLUS_ATTACK_CATAPULT_BY_TECHNOLOGY * technologyAtack) / 100;
-		        wood -= WOOD_COST_CATAPULT;
-		        food -= FOOD_COST_CATAPULT;
-		        iron -= IRON_COST_CATAPULT;
 		        army[5].add(new Catapult(armor, baseDamage));
-		    }
-		}else{
+			}	
+		} else {
 			throw new ResourceException("No tienes recursos suficientes para crear Catapult");
-		}
-
-
+	    }
 	}
 
+	// ==================== 6. ROCKET LAUNCHER ====================
 	public void newRocketLauncher(int n) throws ResourceException {
-		if (wood >= WOOD_COST_ROCKETLAUNCHERTOWER && food >= FOOD_COST_ROCKETLAUNCHERTOWER && iron >= IRON_COST_ROCKETLAUNCHERTOWER) {
-		    for (int i = 0; i < n; i++) {
+	    int totalWoodCost = WOOD_COST_ROCKETLAUNCHERTOWER * n;
+	    int totalFoodCost = FOOD_COST_ROCKETLAUNCHERTOWER * n;
+	    int totalIronCost = IRON_COST_ROCKETLAUNCHERTOWER * n;
+
+		if (wood >= totalWoodCost && food >= totalFoodCost && iron >= totalIronCost) {
+		    wood -= totalWoodCost;
+		    food -= totalFoodCost;
+		    iron -= totalIronCost;
+		    
+			for (int i = 0; i < n; i++) {
 		        int armor = ARMOR_ROCKETLAUNCHERTOWER + (ARMOR_ROCKETLAUNCHERTOWER * PLUS_ARMOR_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY * technologyDefense) / 100;
 		        int baseDamage = BASE_DAMAGE_ROCKETLAUNCHERTOWER + (BASE_DAMAGE_ROCKETLAUNCHERTOWER * PLUS_ATTACK_ROCKETLAUNCHERTOWER_BY_TECHNOLOGY * technologyAtack) / 100;
-		        wood -= WOOD_COST_ROCKETLAUNCHERTOWER;
-		        food -= FOOD_COST_ROCKETLAUNCHERTOWER;
-		        iron -= IRON_COST_ROCKETLAUNCHERTOWER;
 		        army[6].add(new RocketLauncherTower(armor, baseDamage));
-		    }
-		}else {
-			throw new ResourceException("No tienes recursos suficientes para crear RocketLauncher");
-		}
-
-
+			}	
+		} else {
+			throw new ResourceException("No tienes recursos suficientes para crear Rocket Launcher Tower");
+	    }
 	}
 
 	public void newMagician(int n) throws BuildingException, ResourceException {
-		if (wood >= WOOD_COST_MAGICIAN && food >= FOOD_COST_MAGICIAN && iron >= IRON_COST_MAGICIAN) {
+	    int totalWoodCost = WOOD_COST_MAGICIAN * n;
+	    int totalFoodCost = FOOD_COST_MAGICIAN * n;
+	    int totalIronCost = IRON_COST_MAGICIAN * n;
+	    
+		if (wood >= totalWoodCost && food >= totalFoodCost && iron >= totalIronCost) {
 			if (magicTower <= 0) {
 		        throw new BuildingException("You need at least one Magic Tower to create Magicians.");
 		    }
+			
+			wood -= totalWoodCost;
+	        food -= totalFoodCost;
+	        iron -= totalIronCost;
+	        
 		    for (int i = 0; i < n; i++) {
 		    	int armor = 0;
-		        int baseDamage = BASE_DAMAGE_MAGICIAN + (BASE_DAMAGE_MAGICIAN * PLUS_ATTACK_MAGICIAN_BY_TECHNOLOGY * technologyAtack) / 100;
-		        wood -= WOOD_COST_MAGICIAN;
-		        food -= FOOD_COST_MAGICIAN;
-		        iron -= IRON_COST_MAGICIAN;
+		        int baseDamage = BASE_DAMAGE_MAGICIAN + (BASE_DAMAGE_MAGICIAN * PLUS_ATTACK_MAGICIAN_BY_TECHNOLOGY * technologyAtack) / 100;     
 		        army[7].add(new Magician(armor, baseDamage));
 		    }
 		}else {
@@ -266,16 +303,23 @@ public class Civilization implements Variables{
 	}
 
 	public void newPriest(int n) throws BuildingException, ResourceException {
-		if (wood >= WOOD_COST_PRIEST && food >= FOOD_COST_PRIEST && iron >= IRON_COST_PRIEST) {
+		
+	    int totalWoodCost = WOOD_COST_PRIEST * n;
+	    int totalFoodCost = FOOD_COST_PRIEST * n;
+	    int totalIronCost = IRON_COST_PRIEST * n;
+		
+		if (wood >= totalWoodCost && food >= totalFoodCost && iron >= totalIronCost) {
 		    if (church <= 0) {
 		        throw new BuildingException("You need at least one Church to create Priests.");
 		    }
+		    
+		    wood -= totalWoodCost;
+	        food -= totalFoodCost;
+	        iron -= totalIronCost;
+	        
 		    for (int i = 0; i < n; i++) {
 		        int armor = 0;
 		        int baseDamage = 0;
-		        wood -= WOOD_COST_PRIEST;
-		        food -= FOOD_COST_PRIEST;
-		        iron -= IRON_COST_PRIEST;
 		        army[8].add(new Priest(armor, baseDamage));
 		    }
 		}else {

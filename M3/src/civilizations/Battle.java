@@ -99,82 +99,75 @@ public class Battle implements Variables {
     /*
         MAIN ATTACK LOGIC
      */
-    private void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> defenders, boolean civilizationAttack) {
-    	
-        if (attackers.isEmpty() || defenders.isEmpty()) {
-            return;
-        }
+    /*
+    MAIN ATTACK LOGIC
+ */
+private void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> defenders, boolean civilizationAttack) {
+	
+    if (attackers.isEmpty() || defenders.isEmpty()) {
+        return;
+    }
 
+    // 1. ELEGIR ATACANTE
+    // Seguimos tirando los dados hasta que elija un grupo que realmente tengamos vivo
+    MilitaryUnit attacker = null;
+    while (attacker == null) {
         int attackerGroup;
-
         if (civilizationAttack) {
-
             attackerGroup = getGroupAttacker(CHANCE_ATTACK_CIVILIZATION_UNITS);
-
         } else {
-
             attackerGroup = getGroupAttacker(CHANCE_ATTACK_ENEMY_UNITS);
         }
+        attacker = getRandomUnitByGroup(attackers, attackerGroup);
+    }
 
-        MilitaryUnit attacker = getRandomUnitByGroup(attackers, attackerGroup);
+    // 2. ELEGIR DEFENSOR
+    int defenderGroup = getGroupDefender(defenders);
+    MilitaryUnit defender = getRandomUnitByGroup(defenders, defenderGroup);
 
-        if (attacker == null) {
-            return;
-        }
+    if (defender == null) {
+        return;
+    }
 
-        int defenderGroup = getGroupDefender(defenders);
+    // 3. DAÑO
+    int damage = attacker.attack();
+    defender.takeDamage(damage);
 
-        MilitaryUnit defender = getRandomUnitByGroup(defenders, defenderGroup);
+    /*
+        LOGS CON TEXTOS EXACTOS DEL PDF
+     */
+    if (civilizationAttack) {
+        battleDevelopment += "Attacks Civilization: ";
+    } else {
+        battleDevelopment += "Attacks army enemy : ";
+    }
+    
+    battleDevelopment += attacker.getClass().getSimpleName() + " attacks " + defender.getClass().getSimpleName() + "\n";
+    battleDevelopment += attacker.getClass().getSimpleName() + " generates the damage = " + damage + "\n";
+    battleDevelopment += defender.getClass().getSimpleName() + " stays with armor = " + defender.getActualArmor() + "\n";
 
-        if (defender == null) {
-            return;
-        }
+    /*
+        UNIT DEAD
+    */
+    if (defender.getActualArmor() <= 0) {
+        defenders.remove(defender);
+        // "we eliminate" en minúscula como pide el PDF
+        battleDevelopment += "we eliminate " + defender.getClass().getSimpleName() + "\n";
+        generateWaste(defender);
+    }
 
-        int damage = attacker.attack();
-
-        defender.takeDamage(damage);
-
-        /*
-            LOGS
-         */
-        if (civilizationAttack) {
-
-            battleDevelopment += "Attacks Civilization Army: ";
-        } else {
-            battleDevelopment += "Attacks Enemy Army: ";
-        }
-        
-        battleDevelopment += attacker.getClass().getSimpleName() + " attacks " + defender.getClass().getSimpleName() + "\n";
-
-        battleDevelopment += attacker.getClass().getSimpleName() + " generates damage = " + damage + "\n";
-
-        battleDevelopment += defender.getClass().getSimpleName() + " stays with armor = " + defender.getActualArmor() + "\n";
-
-        /*
-            UNIT DEAD
-        */
-        
-        if (defender.getActualArmor() <= 0) {
-
-            defenders.remove(defender);
-
-            battleDevelopment += "We eliminate " + defender.getClass().getSimpleName() + "\n";
-
-            generateWaste(defender);
-        }
-
-        /*
-            ATTACK AGAIN
-         */
+    /*
+        ATTACK AGAIN
+     */
+    if (!defenders.isEmpty()) { // Solo tiramos dado si quedan enemigos
         int random = (int) (Math.random() * 100);
 
         if (random < attacker.getChanceAttackAgain()) {
-
-            battleDevelopment += attacker.getClass().getSimpleName() + " attacks again!\n";
-
+            battleDevelopment += "The army gets an extra attack!\n";
             attack(attackers, defenders, civilizationAttack);
         }
     }
+}
 
     /*
     BATTLE FINISHED?
@@ -262,7 +255,7 @@ public class Battle implements Variables {
                 initialCostFleet[0][2]
                         - civilizationActual[2];
 
-        resourcesLosses[0][3] = resourcesLosses[0][2] + resourcesLosses[0][1] * 5 + resourcesLosses[0][0] * 10;
+        resourcesLosses[0][3] = resourcesLosses[0][2] + resourcesLosses[0][1] / 5 + resourcesLosses[0][0] / 10;
 
         /*
             ENEMY LOSSES
@@ -273,7 +266,7 @@ public class Battle implements Variables {
 
         resourcesLosses[1][2] = initialCostFleet[1][2] - enemyActual[2];
 
-        resourcesLosses[1][3] = resourcesLosses[1][2] + resourcesLosses[1][1] * 5 + resourcesLosses[1][0] * 10;
+        resourcesLosses[1][3] = resourcesLosses[1][2] + resourcesLosses[1][1] / 5 + resourcesLosses[1][0] / 10;
     }
 
     /*
