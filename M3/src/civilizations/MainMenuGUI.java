@@ -49,7 +49,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         JPanel panelMap = new JPanel(new BorderLayout());
         panelMap.setBackground(new Color(30, 30, 30));
         panelMap.setPreferredSize(new Dimension(620, 0));
-        ImageIcon iconMapa = new ImageIcon("civilizations/mapa.png");
+        ImageIcon iconMapa = new ImageIcon("./civilizations/mapa.png");
         if (iconMapa.getIconWidth() > 0) {
             Image imagenEscalada = iconMapa.getImage().getScaledInstance(620, 490, Image.SCALE_SMOOTH);
             panelMap.add(new JLabel(new ImageIcon(imagenEscalada)), BorderLayout.CENTER);
