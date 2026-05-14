@@ -33,24 +33,24 @@ public class Main extends Civilization implements Variables {
                     ArrayList<MilitaryUnit> enemyArmy = createEnemyArmy(numeroBatalla);
                     ArrayList<MilitaryUnit> myArmy = civilization.getArmy();
 
-                    int aliadosInicio  = myArmy.size();
+                    int aliadosInicio = myArmy.size();
                     int enemigosInicio = enemyArmy.size();
 
                     Battle battle = new Battle(myArmy, enemyArmy);
                     battle.startBattle();
 
-                    int aliadosFin  = myArmy.size();
+                    int aliadosFin = myArmy.size();
                     int enemigosFin = enemyArmy.size();
 
-                    // ── MODIFICADO: concatenamos development + summary ──
+                    // Juntamos la historia del combate con el resumen final.
                     String development = battle.getBattleDevelopment();
-                    String summary     = battle.getBattleReport(numeroBatalla);
+                    String summary = battle.getBattleReport(numeroBatalla);
 
-                    // Mostramos ambos por consola (igual que antes)
+                    // Se imprime tambien en consola para seguir el combate paso a paso.
                     System.out.println(development);
                     System.out.println(summary);
 
-                    // El report completo incluye turnos + resumen
+                    // Este texto es el que luego se muestra en la interfaz.
                     String report = development + "\n" + summary;
 
                     civilization.updateArmy(myArmy);
@@ -59,10 +59,9 @@ public class Main extends Civilization implements Variables {
                     if (menuRef[0] != null) {
                         SwingUtilities.invokeLater(() -> {
                             menuRef[0].showBattleAnim(
-                                aliadosInicio, enemigosInicio,
-                                aliadosFin,    enemigosFin,
-                                report
-                            );
+                                    aliadosInicio, enemigosInicio,
+                                    aliadosFin, enemigosFin,
+                                    report);
                         });
                     }
 
@@ -92,26 +91,30 @@ public class Main extends Civilization implements Variables {
         int enemyIron = IRON_BASE_ENEMY_ARMY + (IRON_BASE_ENEMY_ARMY * incrementoPorcentaje / 100);
         int enemyFood = FOOD_BASE_ENEMY_ARMY + (FOOD_BASE_ENEMY_ARMY * incrementoPorcentaje / 100);
 
-        while (enemyWood >= WOOD_COST_SWORDSMAN && enemyIron >= IRON_COST_SWORDSMAN && enemyFood >= FOOD_COST_SWORDSMAN) {
+        while (enemyWood >= WOOD_COST_SWORDSMAN && enemyIron >= IRON_COST_SWORDSMAN
+                && enemyFood >= FOOD_COST_SWORDSMAN) {
 
             int random = (int) (Math.random() * 100) + 1;
 
             if (random <= 35) {
-                if (enemyWood >= WOOD_COST_SWORDSMAN && enemyIron >= IRON_COST_SWORDSMAN && enemyFood >= FOOD_COST_SWORDSMAN) {
+                if (enemyWood >= WOOD_COST_SWORDSMAN && enemyIron >= IRON_COST_SWORDSMAN
+                        && enemyFood >= FOOD_COST_SWORDSMAN) {
                     enemyArmy.add(new Swordsman());
                     enemyWood -= WOOD_COST_SWORDSMAN;
                     enemyIron -= IRON_COST_SWORDSMAN;
                     enemyFood -= FOOD_COST_SWORDSMAN;
                 }
             } else if (random <= 60) {
-                if (enemyWood >= WOOD_COST_SPEARMAN && enemyIron >= IRON_COST_SPEARMAN && enemyFood >= FOOD_COST_SPEARMAN) {
+                if (enemyWood >= WOOD_COST_SPEARMAN && enemyIron >= IRON_COST_SPEARMAN
+                        && enemyFood >= FOOD_COST_SPEARMAN) {
                     enemyArmy.add(new Spearman());
                     enemyWood -= WOOD_COST_SPEARMAN;
                     enemyIron -= IRON_COST_SPEARMAN;
                     enemyFood -= FOOD_COST_SPEARMAN;
                 }
             } else if (random <= 80) {
-                if (enemyWood >= WOOD_COST_CROSSBOW && enemyIron >= IRON_COST_CROSSBOW && enemyFood >= FOOD_COST_CROSSBOW) {
+                if (enemyWood >= WOOD_COST_CROSSBOW && enemyIron >= IRON_COST_CROSSBOW
+                        && enemyFood >= FOOD_COST_CROSSBOW) {
                     enemyArmy.add(new Crossbow());
                     enemyWood -= WOOD_COST_CROSSBOW;
                     enemyIron -= IRON_COST_CROSSBOW;

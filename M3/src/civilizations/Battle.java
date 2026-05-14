@@ -8,7 +8,7 @@ public class Battle implements Variables {
     private ArrayList<MilitaryUnit> enemyArmy;
 
     private String battleDevelopment;
-    
+
     private int initialNumberUnitsCivilization;
     private int initialNumberUnitsEnemy;
 
@@ -16,33 +16,33 @@ public class Battle implements Variables {
     private int[] wasteWoodIron;
 
     /*
-        initialArmies[0] -> civilization
-        initialArmies[1] -> enemy
-
-        positions:
-        0 swordsman
-        1 spearman
-        2 crossbow
-        3 cannon
-        4 arrow tower
-        5 catapult
-        6 rocket launcher tower
-        7 magician
-        8 priest
+     * initialArmies[0] -> civilization
+     * initialArmies[1] -> enemy
+     * 
+     * positions:
+     * 0 swordsman
+     * 1 spearman
+     * 2 crossbow
+     * 3 cannon
+     * 4 arrow tower
+     * 5 catapult
+     * 6 rocket launcher tower
+     * 7 magician
+     * 8 priest
      */
     private int[][] initialArmies;
 
     /*
-        [food, wood, iron]
+     * [food, wood, iron]
      */
     private int[][] initialCostFleet;
 
     /*
-        [foodLoss, woodLoss, ironLoss, weightedLoss]
+     * [foodLoss, woodLoss, ironLoss, weightedLoss]
      */
     private int[][] resourcesLosses;
 
-    public Battle(ArrayList<MilitaryUnit> civilizationArmy,ArrayList<MilitaryUnit> enemyArmy) {
+    public Battle(ArrayList<MilitaryUnit> civilizationArmy, ArrayList<MilitaryUnit> enemyArmy) {
 
         this.civilizationArmy = civilizationArmy;
         this.enemyArmy = enemyArmy;
@@ -67,7 +67,7 @@ public class Battle implements Variables {
     }
 
     /*
-        START BATTLE
+     * START BATTLE
      */
     public void startBattle() {
 
@@ -97,9 +97,10 @@ public class Battle implements Variables {
     }
 
     /*
-        MAIN ATTACK LOGIC
+     * MAIN ATTACK LOGIC
      */
-    private void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> defenders, boolean civilizationAttack) {
+    private void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> defenders,
+            boolean civilizationAttack) {
 
         if (attackers.isEmpty() || defenders.isEmpty()) {
             return;
@@ -117,7 +118,7 @@ public class Battle implements Variables {
             attacker = getRandomUnitByGroup(attackers, attackerGroup);
         }
 
-        // 2. ELEGIR DEFENSOR
+        // Elegimos un defensor valido entre las tropas que siguen en pie.
         int defenderGroup = getGroupDefender(defenders);
         MilitaryUnit defender = getRandomUnitByGroup(defenders, defenderGroup);
 
@@ -125,35 +126,30 @@ public class Battle implements Variables {
             return;
         }
 
-        // 3. DAÑO
+        // Aplicamos el golpe y actualizamos el estado del defensor.
         int damage = attacker.attack();
         defender.takeDamage(damage);
 
-        /*
-            LOGS CON TEXTOS EXACTOS DEL PDF
-         */
         if (civilizationAttack) {
             battleDevelopment += "Attacks Civilization: ";
         } else {
             battleDevelopment += "Attacks army enemy : ";
         }
 
-        battleDevelopment += attacker.getClass().getSimpleName() + " attacks " + defender.getClass().getSimpleName() + "\n";
+        battleDevelopment += attacker.getClass().getSimpleName() + " attacks " + defender.getClass().getSimpleName()
+                + "\n";
         battleDevelopment += attacker.getClass().getSimpleName() + " generates the damage = " + damage + "\n";
-        battleDevelopment += defender.getClass().getSimpleName() + " stays with armor = " + defender.getActualArmor() + "\n";
+        battleDevelopment += defender.getClass().getSimpleName() + " stays with armor = " + defender.getActualArmor()
+                + "\n";
 
-        /*
-            UNIT DEAD
-        */
+        // Si la unidad cae, la sacamos del combate y registramos el desperdicio.
         if (defender.getActualArmor() <= 0) {
             defenders.remove(defender);
             battleDevelopment += "we eliminate " + defender.getClass().getSimpleName() + "\n";
             generateWaste(defender);
         }
 
-        /*
-            ATTACK AGAIN
-         */
+        // Algunas unidades pueden volver a atacar de inmediato.
         if (!defenders.isEmpty()) {
             int random = (int) (Math.random() * 100);
 
@@ -164,15 +160,13 @@ public class Battle implements Variables {
         }
     }
 
-    /*
-        BATTLE FINISHED?
-     */
     private boolean battleFinished() {
 
         if (initialNumberUnitsCivilization == 0 || initialNumberUnitsEnemy == 0) {
             return true;
         }
 
+        // Terminamos si uno de los dos bandos baja demasiado respecto al inicio.
         int civilizationPercentage = civilizationArmy.size() * 100 / initialNumberUnitsCivilization;
 
         int enemyPercentage = enemyArmy.size() * 100 / initialNumberUnitsEnemy;
@@ -180,11 +174,9 @@ public class Battle implements Variables {
         return civilizationPercentage <= 20 || enemyPercentage <= 20;
     }
 
-    /*
-        INITIAL ARMIES
-     */
     private void initInitialArmies() {
 
+        // Guardamos cuantas unidades habia de cada tipo al empezar.
         for (MilitaryUnit unit : civilizationArmy) {
 
             int index = getUnitIndex(unit);
@@ -204,15 +196,13 @@ public class Battle implements Variables {
         }
     }
 
-    /*
-        RESOURCE COST OF ARMY
-     */
     private int[] fleetResourceCost(ArrayList<MilitaryUnit> army) {
 
         int food = 0;
         int wood = 0;
         int iron = 0;
 
+        // Sumamos el coste real de toda la tropa antes de la batalla.
         for (MilitaryUnit unit : army) {
 
             food += unit.getFoodCost();
@@ -220,12 +210,9 @@ public class Battle implements Variables {
             iron += unit.getIronCost();
         }
 
-        return new int[]{food, wood, iron};
+        return new int[] { food, wood, iron };
     }
 
-    /*
-        UPDATE LOSSES
-     */
     private void updateResourcesLosses() {
 
         int[] civilizationActual = fleetResourceCost(civilizationArmy);
@@ -233,7 +220,7 @@ public class Battle implements Variables {
         int[] enemyActual = fleetResourceCost(enemyArmy);
 
         /*
-            CIVILIZATION LOSSES
+         * CIVILIZATION LOSSES
          */
         resourcesLosses[0][0] = initialCostFleet[0][0] - civilizationActual[0];
 
@@ -244,8 +231,8 @@ public class Battle implements Variables {
         resourcesLosses[0][3] = resourcesLosses[0][2] + resourcesLosses[0][1] / 5 + resourcesLosses[0][0] / 10;
 
         /*
-            ENEMY LOSSES
-        */
+         * ENEMY LOSSES
+         */
         resourcesLosses[1][0] = initialCostFleet[1][0] - enemyActual[0];
 
         resourcesLosses[1][1] = initialCostFleet[1][1] - enemyActual[1];
@@ -256,7 +243,7 @@ public class Battle implements Variables {
     }
 
     /*
-        GENERATE WASTE
+     * GENERATE WASTE
      */
     private void generateWaste(MilitaryUnit unit) {
 
@@ -273,8 +260,8 @@ public class Battle implements Variables {
     }
 
     /*
-        GET GROUP ATTACKER
-    */
+     * GET GROUP ATTACKER
+     */
     private int getGroupAttacker(int[] probabilities) {
 
         int total = 0;
@@ -300,8 +287,8 @@ public class Battle implements Variables {
     }
 
     /*
-        GET GROUP DEFENDER
-    */
+     * GET GROUP DEFENDER
+     */
     private int getGroupDefender(ArrayList<MilitaryUnit> army) {
 
         int[] groups = countUnitsByType(army);
@@ -333,7 +320,7 @@ public class Battle implements Variables {
     }
 
     /*
-        COUNT UNITS
+     * COUNT UNITS
      */
     private int[] countUnitsByType(ArrayList<MilitaryUnit> army) {
 
@@ -352,7 +339,7 @@ public class Battle implements Variables {
     }
 
     /*
-        RANDOM UNIT BY GROUP
+     * RANDOM UNIT BY GROUP
      */
     private MilitaryUnit getRandomUnitByGroup(ArrayList<MilitaryUnit> army, int group) {
 
@@ -375,26 +362,35 @@ public class Battle implements Variables {
     }
 
     /*
-        UNIT INDEX
+     * UNIT INDEX
      */
     private int getUnitIndex(MilitaryUnit unit) {
 
-        if (unit instanceof Swordsman) return 0;
-        if (unit instanceof Spearman) return 1;
-        if (unit instanceof Crossbow) return 2;
-        if (unit instanceof Cannon) return 3;
-        if (unit instanceof ArrowTower) return 4;
-        if (unit instanceof Catapult) return 5;
-        if (unit instanceof RocketLauncherTower) return 6;
-        if (unit instanceof Magician) return 7;
-        if (unit instanceof Priest) return 8;
+        if (unit instanceof Swordsman)
+            return 0;
+        if (unit instanceof Spearman)
+            return 1;
+        if (unit instanceof Crossbow)
+            return 2;
+        if (unit instanceof Cannon)
+            return 3;
+        if (unit instanceof ArrowTower)
+            return 4;
+        if (unit instanceof Catapult)
+            return 5;
+        if (unit instanceof RocketLauncherTower)
+            return 6;
+        if (unit instanceof Magician)
+            return 7;
+        if (unit instanceof Priest)
+            return 8;
 
         return -1;
     }
 
     /*
-        RESET ARMOR
-    */
+     * RESET ARMOR
+     */
     public void resetArmyArmor() {
 
         for (MilitaryUnit unit : civilizationArmy) {
@@ -407,8 +403,8 @@ public class Battle implements Variables {
     }
 
     /*
-        WINNER
-    */
+     * WINNER
+     */
     public String getWinner() {
 
         if (resourcesLosses[0][3] < resourcesLosses[1][3]) {
@@ -419,7 +415,7 @@ public class Battle implements Variables {
     }
 
     /*
-        DEVELOPMENT REPORT
+     * DEVELOPMENT REPORT
      */
     public String getBattleDevelopment() {
 
@@ -427,7 +423,7 @@ public class Battle implements Variables {
     }
 
     /*
-        SUMMARY REPORT
+     * SUMMARY REPORT
      */
     public String getBattleReport(int battleNumber) {
 

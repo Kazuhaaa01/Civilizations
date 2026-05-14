@@ -5,11 +5,11 @@ import javax.swing.*;
 
 public class BattleAnimPanel extends JPanel {
 
-    private static final int[] ALLY_POSITIONS_X  = {210, 230, 195, 250, 215, 235, 200, 245, 220, 205};
-    private static final int[] ALLY_POSITIONS_Y  = {280, 300, 310, 290, 330, 320, 295, 335, 350, 270};
+    private static final int[] ALLY_POSITIONS_X = { 210, 230, 195, 250, 215, 235, 200, 245, 220, 205 };
+    private static final int[] ALLY_POSITIONS_Y = { 280, 300, 310, 290, 330, 320, 295, 335, 350, 270 };
 
-    private static final int[] ENEMY_POSITIONS_X = {380, 400, 365, 420, 390, 410, 375, 430, 405, 360};
-    private static final int[] ENEMY_POSITIONS_Y = {260, 275, 285, 265, 295, 305, 250, 290, 310, 280};
+    private static final int[] ENEMY_POSITIONS_X = { 380, 400, 365, 420, 390, 410, 375, 430, 405, 360 };
+    private static final int[] ENEMY_POSITIONS_Y = { 260, 275, 285, 265, 295, 305, 250, 290, 310, 280 };
 
     private final int aliadosPuntosInicio;
     private final int enemigosPuntosInicio;
@@ -29,57 +29,59 @@ public class BattleAnimPanel extends JPanel {
     private int labelTick = 0;
 
     public BattleAnimPanel(int aliadosInicio, int enemigosInicio,
-                           int aliadosFin,   int enemigosFin,
-                           Runnable onFinished) {
+            int aliadosFin, int enemigosFin,
+            Runnable onFinished) {
 
         this.onFinished = onFinished;
         setOpaque(false);
 
         int maximo = Math.max(aliadosInicio, enemigosInicio);
-        aliadosPuntosInicio  = escalar(aliadosInicio, maximo);
+        aliadosPuntosInicio = escalar(aliadosInicio, maximo);
         enemigosPuntosInicio = escalar(enemigosInicio, maximo);
-        aliadosPuntosFin     = Math.max(0, escalar(aliadosFin,  maximo));
-        enemigosPuntosFin    = Math.max(0, escalar(enemigosFin, maximo));
-        aliadosGanan         = aliadosFin > enemigosFin;
+        aliadosPuntosFin = Math.max(0, escalar(aliadosFin, maximo));
+        enemigosPuntosFin = Math.max(0, escalar(enemigosFin, maximo));
+        aliadosGanan = aliadosFin > enemigosFin;
 
-        aliadosAlpha  = new float[10];
+        aliadosAlpha = new float[10];
         enemigosAlpha = new float[10];
         for (int i = 0; i < 10; i++) {
-            aliadosAlpha[i]  = (i < aliadosPuntosInicio)  ? 1.0f : 0.0f;
+            aliadosAlpha[i] = (i < aliadosPuntosInicio) ? 1.0f : 0.0f;
             enemigosAlpha[i] = (i < enemigosPuntosInicio) ? 1.0f : 0.0f;
         }
 
         animTimer = new javax.swing.Timer(100, e -> {
             tick++;
             labelTick++;
-            if (labelTick % 5 == 0) mostrarLabel = !mostrarLabel;
+            if (labelTick % 5 == 0)
+                mostrarLabel = !mostrarLabel;
 
             float progreso = (float) tick / totalTicks;
 
-            // Calcular cuántos puntos deben estar vivos ahora mismo
+            // La animacion baja los puntos poco a poco para que el resultado se sienta mas natural.
             int targetAliados, targetEnemigos;
 
             if (aliadosGanan) {
-                // Enemigos pierden rápido (curva raíz), aliados pierden poco (curva cuadrática)
+                // Si ganan los aliados, el rival cae mas rapido y los aliados aguantan un poco
+                // mas.
                 targetEnemigos = (int) Math.round(enemigosPuntosInicio
-                    - (enemigosPuntosInicio - enemigosPuntosFin) * Math.pow(progreso, 0.5));
-                targetAliados  = (int) Math.round(aliadosPuntosInicio
-                    - (aliadosPuntosInicio  - aliadosPuntosFin)  * Math.pow(progreso, 2.0));
+                        - (enemigosPuntosInicio - enemigosPuntosFin) * Math.pow(progreso, 0.5));
+                targetAliados = (int) Math.round(aliadosPuntosInicio
+                        - (aliadosPuntosInicio - aliadosPuntosFin) * Math.pow(progreso, 2.0));
             } else {
-                // Aliados pierden rápido, enemigos pierden poco
-                targetAliados  = (int) Math.round(aliadosPuntosInicio
-                    - (aliadosPuntosInicio  - aliadosPuntosFin)  * Math.pow(progreso, 0.5));
+                // Si pierden los aliados, el ritmo se invierte.
+                targetAliados = (int) Math.round(aliadosPuntosInicio
+                        - (aliadosPuntosInicio - aliadosPuntosFin) * Math.pow(progreso, 0.5));
                 targetEnemigos = (int) Math.round(enemigosPuntosInicio
-                    - (enemigosPuntosInicio - enemigosPuntosFin) * Math.pow(progreso, 2.0));
+                        - (enemigosPuntosInicio - enemigosPuntosFin) * Math.pow(progreso, 2.0));
             }
 
-            // Clamp para no salir del rango
-            targetAliados  = Math.max(aliadosPuntosFin,  Math.min(aliadosPuntosInicio,  targetAliados));
+            // Evita que el calculo se salga de los limites reales.
+            targetAliados = Math.max(aliadosPuntosFin, Math.min(aliadosPuntosInicio, targetAliados));
             targetEnemigos = Math.max(enemigosPuntosFin, Math.min(enemigosPuntosInicio, targetEnemigos));
 
-            // Asignar alpha directamente según target
+            // Cada punto se dibuja o se oculta segun el objetivo del momento.
             for (int i = 0; i < 10; i++) {
-                aliadosAlpha[i]  = (i < targetAliados)  ? 1.0f : 0.0f;
+                aliadosAlpha[i] = (i < targetAliados) ? 1.0f : 0.0f;
                 enemigosAlpha[i] = (i < targetEnemigos) ? 1.0f : 0.0f;
             }
 
@@ -87,13 +89,15 @@ public class BattleAnimPanel extends JPanel {
 
             if (tick >= totalTicks) {
                 animTimer.stop();
-                if (onFinished != null) SwingUtilities.invokeLater(onFinished);
+                if (onFinished != null)
+                    SwingUtilities.invokeLater(onFinished);
             }
         });
     }
 
     private int escalar(int valor, int maximo) {
-        if (maximo == 0) return 0;
+        if (maximo == 0)
+            return 0;
         return Math.max(1, Math.min(10, (int) Math.round(valor * 10.0 / maximo)));
     }
 
@@ -111,7 +115,8 @@ public class BattleAnimPanel extends JPanel {
 
         for (int i = 0; i < 10; i++) {
             float a = aliadosAlpha[i];
-            if (a <= 0f) continue;
+            if (a <= 0f)
+                continue;
             int x = ALLY_POSITIONS_X[i] - radio / 2;
             int y = ALLY_POSITIONS_Y[i] - radio / 2;
             g2.setColor(new Color(0, 0, 0, 80));
@@ -120,10 +125,10 @@ public class BattleAnimPanel extends JPanel {
             g2.fillOval(x, y, radio, radio);
         }
 
-
         for (int i = 0; i < 10; i++) {
             float a = enemigosAlpha[i];
-            if (a <= 0f) continue;
+            if (a <= 0f)
+                continue;
             int x = ENEMY_POSITIONS_X[i] - radio / 2;
             int y = ENEMY_POSITIONS_Y[i] - radio / 2;
             g2.setColor(new Color(0, 0, 0, 80));
@@ -132,7 +137,7 @@ public class BattleAnimPanel extends JPanel {
             g2.fillOval(x, y, radio, radio);
         }
 
-        // ── Label "⚔ BATTLE!" parpadeante ──
+        // El texto parpadea para dar un poco mas de tension a la pelea.
         if (mostrarLabel) {
             String txt = "⚔ BATTLE!";
             g2.setFont(new Font("Arial", Font.BOLD, 14));
