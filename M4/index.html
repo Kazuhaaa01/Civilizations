@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Civilizations - Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Cinzel:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="glass-header">
+      <div class="logo">
+        <h1>CIVILIZATIONS</h1>
+      </div>
+      <nav>
+        <ul id="nav-menu">
+          <li><a href="#" data-target="inicio" class="active">Inicio</a></li>
+          <li><a href="#" data-target="juego">Juego</a></li>
+          <li><a href="#" data-target="batallas">Batallas</a></li>
+          <li><a href="#" data-target="civilizacion">Civilización</a></li>
+          <li><a href="#" data-target="equipo">Equipo</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Seccion inicio -->
+      <section id="inicio" class="content-section active">
+        <div class="glass-card">
+          <h2>Bienvenido a tu Imperio</h2>
+          <p>
+            Forja tu destino, gestiona tus recursos y conquista a tus enemigos
+            en este épico universo.
+          </p>
+        </div>
+      </section>
+
+      <!-- Seccion juego -->
+      <section id="juego" class="content-section">
+        <div class="glass-card">
+          <h2>Interfaz de Juego</h2>
+          <p>
+            El motor de combates y las mecánicas principales se desarrollarán
+            aquí.
+          </p>
+        </div>
+      </section>
+
+      <!-- Seccion batallas -->
+      <section id="batallas" class="content-section">
+        <div class="glass-card">
+          <h2>Historial de Batallas</h2>
+          <table class="battle-table">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Enemigo</th>
+                <th>Resultado</th>
+                <th>Bajas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>15 May 2026</td>
+                <td>Imperio Romano</td>
+                <td class="victory">Victoria</td>
+                <td>450</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Seccion civilizacion -->
+      <section id="civilizacion" class="content-section">
+        <div class="glass-card">
+          <h2>Estado de la Civilización</h2>
+          <p>Recursos actuales generados desde el backend (Oracle/Java).</p>
+
+          <div class="resources-grid" id="resources-container">
+            <!-- Datos cargados dinamicamente por JS -->
+            <div class="loading">Cargando recursos del servidor...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seccion equipo -->
+      <section id="equipo" class="content-section">
+        <div class="glass-card">
+          <h2>Desarrolladores</h2>
+          <p>Proyecto Final de DAW/DAM - Curso 25-26.</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="main.js"></script>
+  </body>
+</html>

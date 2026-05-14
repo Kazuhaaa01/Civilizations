@@ -1,0 +1,182 @@
+/* Colores y fuentes */
+:root {
+  --color-bg: #0a0a0a;
+  --color-text: #f5f5f7;
+  --color-gold: #d4af37;
+  --color-gold-dim: rgba(212, 175, 55, 0.3);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+
+  --font-heading: "Cinzel", serif; /* Estilo clasico medieval */
+  --font-body: "Inter", sans-serif; /* Estilo Apple minimalista */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000000 100%);
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  color: var(--color-gold);
+  font-weight: 400;
+}
+
+/* Header glass */
+.glass-header {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 1rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo h1 {
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+nav a:hover,
+nav a.active {
+  color: var(--color-gold);
+}
+
+/* Contenedor Principal y SPA */
+main {
+  padding: 3rem 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.content-section {
+  display: none;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.content-section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tarjetas */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-card h2 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.glass-card p {
+  color: #a1a1a6;
+  line-height: 1.6;
+}
+
+/* Dashboard de Recursos (Grid) */
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.resource-card {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--color-gold-dim);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.resource-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-gold);
+}
+
+.resource-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+}
+
+.resource-card .amount {
+  font-size: 2rem;
+  color: var(--color-gold);
+  font-family: var(--font-heading);
+}
+
+/* Tabla de Batallas */
+.battle-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+}
+
+.battle-table th,
+.battle-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.battle-table th {
+  color: var(--color-gold);
+  font-family: var(--font-heading);
+}
+
+.victory {
+  color: #4caf50;
+}
