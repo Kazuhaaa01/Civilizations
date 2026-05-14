@@ -35,7 +35,6 @@ public class MainMenuGUI extends JFrame implements ActionListener {
 
         setPreferredSize(new Dimension(900, 600));
         pack();
-        setResizable(false);
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
