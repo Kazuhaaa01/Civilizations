@@ -33,7 +33,10 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         this.civ = civ;
         this.timer = timer;
 
-        setSize(1000, 600);
+        setPreferredSize(new Dimension(900, 600));
+        pack();
+        setResizable(false);
+        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -59,7 +62,10 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         panelMap.setBackground(new Color(30, 30, 30));
         panelMap.setBounds(0, 0, 620, 490);
 
-        ImageIcon iconMapa = new ImageIcon("~/Civilizations/M3/src/mapa.png");
+        ImageIcon iconMapa = new ImageIcon(
+        	    getClass().getResource("/civilizations/mapa.png")
+        );
+        
         if (iconMapa.getIconWidth() > 0) {
             Image imagenEscalada = iconMapa.getImage().getScaledInstance(620, 490, Image.SCALE_SMOOTH);
             panelMap.add(new JLabel(new ImageIcon(imagenEscalada)), BorderLayout.CENTER);
