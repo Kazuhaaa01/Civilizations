@@ -17,6 +17,7 @@ public class Civilization implements Variables{
 	int smithy;
 	int carpentry;
 	int battles;
+	@SuppressWarnings("unchecked")
 	ArrayList<MilitaryUnit>[] army = (ArrayList<MilitaryUnit>[]) new ArrayList[9];	
 	int upgradeDefenseTechnologyIronCost;
 	int upgradeAttackTechnologyIronCost;
