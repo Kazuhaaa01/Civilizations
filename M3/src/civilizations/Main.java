@@ -33,18 +33,37 @@ public class Main extends Civilization implements Variables {
                     ArrayList<MilitaryUnit> enemyArmy = createEnemyArmy(numeroBatalla);
                     ArrayList<MilitaryUnit> myArmy = civilization.getArmy();
 
+                    int aliadosInicio  = myArmy.size();
+                    int enemigosInicio = enemyArmy.size();
+
                     Battle battle = new Battle(myArmy, enemyArmy);
                     battle.startBattle();
 
-                    System.out.println(battle.getBattleDevelopment());
-                    String report = battle.getBattleReport(numeroBatalla);
-                    System.out.println(report);
+                    int aliadosFin  = myArmy.size();
+                    int enemigosFin = enemyArmy.size();
+
+                    // ── MODIFICADO: concatenamos development + summary ──
+                    String development = battle.getBattleDevelopment();
+                    String summary     = battle.getBattleReport(numeroBatalla);
+
+                    // Mostramos ambos por consola (igual que antes)
+                    System.out.println(development);
+                    System.out.println(summary);
+
+                    // El report completo incluye turnos + resumen
+                    String report = development + "\n" + summary;
 
                     civilization.updateArmy(myArmy);
                     battle.resetArmyArmor();
 
                     if (menuRef[0] != null) {
-                        SwingUtilities.invokeLater(() -> menuRef[0].showBattleReport(report));
+                        SwingUtilities.invokeLater(() -> {
+                            menuRef[0].showBattleAnim(
+                                aliadosInicio, enemigosInicio,
+                                aliadosFin,    enemigosFin,
+                                report
+                            );
+                        });
                     }
 
                     numeroBatalla++;

@@ -99,91 +99,85 @@ public class Battle implements Variables {
     /*
         MAIN ATTACK LOGIC
      */
-    /*
-    MAIN ATTACK LOGIC
- */
-private void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> defenders, boolean civilizationAttack) {
-	
-    if (attackers.isEmpty() || defenders.isEmpty()) {
-        return;
-    }
+    private void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> defenders, boolean civilizationAttack) {
 
-    // 1. ELEGIR ATACANTE
-    // Seguimos tirando los dados hasta que elija un grupo que realmente tengamos vivo
-    MilitaryUnit attacker = null;
-    while (attacker == null) {
-        int attackerGroup;
+        if (attackers.isEmpty() || defenders.isEmpty()) {
+            return;
+        }
+
+        // 1. ELEGIR ATACANTE
+        MilitaryUnit attacker = null;
+        while (attacker == null) {
+            int attackerGroup;
+            if (civilizationAttack) {
+                attackerGroup = getGroupAttacker(CHANCE_ATTACK_CIVILIZATION_UNITS);
+            } else {
+                attackerGroup = getGroupAttacker(CHANCE_ATTACK_ENEMY_UNITS);
+            }
+            attacker = getRandomUnitByGroup(attackers, attackerGroup);
+        }
+
+        // 2. ELEGIR DEFENSOR
+        int defenderGroup = getGroupDefender(defenders);
+        MilitaryUnit defender = getRandomUnitByGroup(defenders, defenderGroup);
+
+        if (defender == null) {
+            return;
+        }
+
+        // 3. DAÑO
+        int damage = attacker.attack();
+        defender.takeDamage(damage);
+
+        /*
+            LOGS CON TEXTOS EXACTOS DEL PDF
+         */
         if (civilizationAttack) {
-            attackerGroup = getGroupAttacker(CHANCE_ATTACK_CIVILIZATION_UNITS);
+            battleDevelopment += "Attacks Civilization: ";
         } else {
-            attackerGroup = getGroupAttacker(CHANCE_ATTACK_ENEMY_UNITS);
+            battleDevelopment += "Attacks army enemy : ";
         }
-        attacker = getRandomUnitByGroup(attackers, attackerGroup);
-    }
 
-    // 2. ELEGIR DEFENSOR
-    int defenderGroup = getGroupDefender(defenders);
-    MilitaryUnit defender = getRandomUnitByGroup(defenders, defenderGroup);
+        battleDevelopment += attacker.getClass().getSimpleName() + " attacks " + defender.getClass().getSimpleName() + "\n";
+        battleDevelopment += attacker.getClass().getSimpleName() + " generates the damage = " + damage + "\n";
+        battleDevelopment += defender.getClass().getSimpleName() + " stays with armor = " + defender.getActualArmor() + "\n";
 
-    if (defender == null) {
-        return;
-    }
+        /*
+            UNIT DEAD
+        */
+        if (defender.getActualArmor() <= 0) {
+            defenders.remove(defender);
+            battleDevelopment += "we eliminate " + defender.getClass().getSimpleName() + "\n";
+            generateWaste(defender);
+        }
 
-    // 3. DAÑO
-    int damage = attacker.attack();
-    defender.takeDamage(damage);
+        /*
+            ATTACK AGAIN
+         */
+        if (!defenders.isEmpty()) {
+            int random = (int) (Math.random() * 100);
 
-    /*
-        LOGS CON TEXTOS EXACTOS DEL PDF
-     */
-    if (civilizationAttack) {
-        battleDevelopment += "Attacks Civilization: ";
-    } else {
-        battleDevelopment += "Attacks army enemy : ";
-    }
-    
-    battleDevelopment += attacker.getClass().getSimpleName() + " attacks " + defender.getClass().getSimpleName() + "\n";
-    battleDevelopment += attacker.getClass().getSimpleName() + " generates the damage = " + damage + "\n";
-    battleDevelopment += defender.getClass().getSimpleName() + " stays with armor = " + defender.getActualArmor() + "\n";
-
-    /*
-        UNIT DEAD
-    */
-    if (defender.getActualArmor() <= 0) {
-        defenders.remove(defender);
-        // "we eliminate" en minúscula como pide el PDF
-        battleDevelopment += "we eliminate " + defender.getClass().getSimpleName() + "\n";
-        generateWaste(defender);
-    }
-
-    /*
-        ATTACK AGAIN
-     */
-    if (!defenders.isEmpty()) { // Solo tiramos dado si quedan enemigos
-        int random = (int) (Math.random() * 100);
-
-        if (random < attacker.getChanceAttackAgain()) {
-            battleDevelopment += "The army gets an extra attack!\n";
-            attack(attackers, defenders, civilizationAttack);
+            if (random < attacker.getChanceAttackAgain()) {
+                battleDevelopment += "The army gets an extra attack!\n";
+                attack(attackers, defenders, civilizationAttack);
+            }
         }
     }
-}
 
     /*
-    BATTLE FINISHED?
- */
+        BATTLE FINISHED?
+     */
     private boolean battleFinished() {
 
-    // Si algún bando empieza con 0 tropas, la batalla termina al instante
-    if (initialNumberUnitsCivilization == 0 || initialNumberUnitsEnemy == 0) {
-        return true; 
-    }
+        if (initialNumberUnitsCivilization == 0 || initialNumberUnitsEnemy == 0) {
+            return true;
+        }
 
-    int civilizationPercentage = civilizationArmy.size() * 100 / initialNumberUnitsCivilization;
+        int civilizationPercentage = civilizationArmy.size() * 100 / initialNumberUnitsCivilization;
 
-    int enemyPercentage = enemyArmy.size() * 100 / initialNumberUnitsEnemy;
+        int enemyPercentage = enemyArmy.size() * 100 / initialNumberUnitsEnemy;
 
-    return civilizationPercentage <= 20 || enemyPercentage <= 20;
+        return civilizationPercentage <= 20 || enemyPercentage <= 20;
     }
 
     /*
@@ -234,26 +228,18 @@ private void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> d
      */
     private void updateResourcesLosses() {
 
-        int[] civilizationActual =
-                fleetResourceCost(civilizationArmy);
+        int[] civilizationActual = fleetResourceCost(civilizationArmy);
 
-        int[] enemyActual =
-                fleetResourceCost(enemyArmy);
+        int[] enemyActual = fleetResourceCost(enemyArmy);
 
         /*
             CIVILIZATION LOSSES
          */
-        resourcesLosses[0][0] =
-                initialCostFleet[0][0]
-                        - civilizationActual[0];
+        resourcesLosses[0][0] = initialCostFleet[0][0] - civilizationActual[0];
 
-        resourcesLosses[0][1] =
-                initialCostFleet[0][1]
-                        - civilizationActual[1];
+        resourcesLosses[0][1] = initialCostFleet[0][1] - civilizationActual[1];
 
-        resourcesLosses[0][2] =
-                initialCostFleet[0][2]
-                        - civilizationActual[2];
+        resourcesLosses[0][2] = initialCostFleet[0][2] - civilizationActual[2];
 
         resourcesLosses[0][3] = resourcesLosses[0][2] + resourcesLosses[0][1] / 5 + resourcesLosses[0][0] / 10;
 
@@ -289,7 +275,6 @@ private void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> d
     /*
         GET GROUP ATTACKER
     */
-    
     private int getGroupAttacker(int[] probabilities) {
 
         int total = 0;
@@ -317,7 +302,6 @@ private void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> d
     /*
         GET GROUP DEFENDER
     */
-    
     private int getGroupDefender(ArrayList<MilitaryUnit> army) {
 
         int[] groups = countUnitsByType(army);
@@ -370,12 +354,9 @@ private void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> d
     /*
         RANDOM UNIT BY GROUP
      */
-    private MilitaryUnit getRandomUnitByGroup(
-            ArrayList<MilitaryUnit> army,
-            int group) {
+    private MilitaryUnit getRandomUnitByGroup(ArrayList<MilitaryUnit> army, int group) {
 
-        ArrayList<MilitaryUnit> units =
-                new ArrayList<>();
+        ArrayList<MilitaryUnit> units = new ArrayList<>();
 
         for (MilitaryUnit unit : army) {
 
@@ -388,8 +369,7 @@ private void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> d
             return null;
         }
 
-        int random =
-                (int) (Math.random() * units.size());
+        int random = (int) (Math.random() * units.size());
 
         return units.get(random);
     }
@@ -431,9 +411,7 @@ private void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> d
     */
     public String getWinner() {
 
-        if (resourcesLosses[0][3]
-                < resourcesLosses[1][3]) {
-
+        if (resourcesLosses[0][3] < resourcesLosses[1][3]) {
             return "Civilization";
         }
 
@@ -459,9 +437,16 @@ private void attack(ArrayList<MilitaryUnit> attackers, ArrayList<MilitaryUnit> d
 
         report += "################ BATTLE STATISTICS ################\n\n";
 
-        report += "Civilization remaining units: " + civilizationArmy.size() + "\n";
+        // ── AÑADIDO: unidades iniciales ──
+        report += "Civilization initial units: " + initialNumberUnitsCivilization + "\n";
+        report += "Enemy initial units:        " + initialNumberUnitsEnemy + "\n\n";
 
-        report += "Enemy remaining units: " + enemyArmy.size() + "\n\n";
+        report += "Civilization remaining units: " + civilizationArmy.size() + "\n";
+        report += "Enemy remaining units:        " + enemyArmy.size() + "\n\n";
+
+        // ── AÑADIDO: bajas totales ──
+        report += "Civilization units lost: " + (initialNumberUnitsCivilization - civilizationArmy.size()) + "\n";
+        report += "Enemy units lost:        " + (initialNumberUnitsEnemy - enemyArmy.size()) + "\n\n";
 
         report += "################ LOSSES ################\n\n";
 

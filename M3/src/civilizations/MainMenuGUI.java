@@ -4,18 +4,24 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.Timer;
+import java.io.File;
 
 public class MainMenuGUI extends JFrame implements ActionListener {
 
     Civilization civ;
     Timer timer;
 
-    JButton btnCreate    = new JButton("Create");
-    JButton btnUpgrade   = new JButton("Upgrade Technologies");
-    JButton btnViewStats = new JButton("View Stats");
-    JButton btnExit      = new JButton("Exit");
+    JButton btnCreate        = new JButton("Create");
+    JButton btnUpgrade       = new JButton("Upgrade Technologies");
+    JButton btnViewStats     = new JButton("View Stats");
+    JButton btnBattleResults = new JButton("Battle Results");
+    JButton btnExit          = new JButton("Exit");
 
     JPanel panelContent;
+    JLayeredPane layeredMap = new JLayeredPane();
+    BattleAnimPanel battleAnim = null;
+
+    String lastBattleReport = "No battles yet.";
 
     JLabel lblFood = new JLabel();
     JLabel lblWood = new JLabel();
@@ -31,25 +37,29 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
-
         setLayout(new BorderLayout());
 
-        // ── NORTE: 3 botones ──
+        // ── NORTE: botones ──
         JPanel panelNorth = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         panelNorth.setBackground(new Color(50, 50, 50));
         btnCreate.addActionListener(this);
         btnUpgrade.addActionListener(this);
         btnViewStats.addActionListener(this);
+        btnBattleResults.addActionListener(this);
         panelNorth.add(btnCreate);
         panelNorth.add(btnUpgrade);
         panelNorth.add(btnViewStats);
+        panelNorth.add(btnBattleResults);
         add(panelNorth, BorderLayout.NORTH);
 
-        // ── CENTRO: mapa ──
+        // ── CENTRO: mapa con animación superpuesta ──
+        layeredMap.setPreferredSize(new Dimension(620, 490));
+
         JPanel panelMap = new JPanel(new BorderLayout());
         panelMap.setBackground(new Color(30, 30, 30));
-        panelMap.setPreferredSize(new Dimension(620, 0));
-        ImageIcon iconMapa = new ImageIcon("./civilizations/mapa.png");
+        panelMap.setBounds(0, 0, 620, 490);
+
+        ImageIcon iconMapa = new ImageIcon("mapa.png");
         if (iconMapa.getIconWidth() > 0) {
             Image imagenEscalada = iconMapa.getImage().getScaledInstance(620, 490, Image.SCALE_SMOOTH);
             panelMap.add(new JLabel(new ImageIcon(imagenEscalada)), BorderLayout.CENTER);
@@ -59,9 +69,11 @@ public class MainMenuGUI extends JFrame implements ActionListener {
             lblMap.setFont(new Font("Arial", Font.BOLD, 22));
             panelMap.add(lblMap, BorderLayout.CENTER);
         }
-        add(panelMap, BorderLayout.CENTER);
+        layeredMap.add(panelMap, JLayeredPane.DEFAULT_LAYER);
+        add(layeredMap, BorderLayout.CENTER);
+       
 
-        // ── DERECHA: recursos fijos + contenido dinámico ──
+        // ── DERECHA: recursos + contenido dinámico ──
         JPanel panelRight = new JPanel(new BorderLayout());
         panelRight.setPreferredSize(new Dimension(260, 0));
         panelRight.setBackground(new Color(70, 70, 70));
@@ -97,7 +109,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
 
         add(panelRight, BorderLayout.EAST);
 
-        // ── SUR: Exit abajo izquierda ──
+        // ── SUR: Exit ──
         JPanel panelSouth = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         panelSouth.setBackground(new Color(50, 50, 50));
         btnExit.addActionListener(this);
@@ -115,7 +127,38 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         lblMana.setText("Mana: " + civ.mana);
     }
 
+    // ── MODIFICADO: ahora recibe el report y lo pasa al callback ──
+    public void showBattleAnim(int aliadosInicio, int enemigosInicio,
+                                int aliadosFin,   int enemigosFin,
+                                String report) {
+        if (battleAnim != null) {
+            layeredMap.remove(battleAnim);
+        }
+
+        battleAnim = new BattleAnimPanel(
+            aliadosInicio, enemigosInicio,
+            aliadosFin,   enemigosFin,
+            () -> {                                  // callback al terminar 5s
+                layeredMap.remove(battleAnim);
+                layeredMap.revalidate();
+                layeredMap.repaint();
+                showBattleReport(report);            // lanza el reporte solo
+            }
+        );
+
+        battleAnim.setBounds(0, 0, 620, 490);        // cubre todo el mapa
+        layeredMap.add(battleAnim, JLayeredPane.PALETTE_LAYER);
+        layeredMap.revalidate();
+        layeredMap.repaint();
+        battleAnim.startAnim();
+    }
+
     public void showBattleReport(String report) {
+        lastBattleReport = report;
+        displayBattleReport();
+    }
+
+    private void displayBattleReport() {
         JPanel p = new JPanel(new BorderLayout());
         p.setBackground(new Color(70, 70, 70));
 
@@ -124,7 +167,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         titulo.setFont(new Font("Arial", Font.BOLD, 13));
         titulo.setBorder(BorderFactory.createEmptyBorder(8, 0, 8, 0));
 
-        JTextArea txtReport = new JTextArea(report);
+        JTextArea txtReport = new JTextArea(lastBattleReport);
         txtReport.setEditable(false);
         txtReport.setBackground(new Color(50, 50, 50));
         txtReport.setForeground(Color.WHITE);
@@ -158,6 +201,8 @@ public class MainMenuGUI extends JFrame implements ActionListener {
             setContent(new UpgradePanel(civ));
         } else if (font == btnViewStats) {
             setContent(new StatsPanel(civ));
+        } else if (font == btnBattleResults) {
+            displayBattleReport();
         } else if (font == btnExit) {
             timer.cancel();
             System.exit(0);

@@ -7,13 +7,13 @@ public interface Variables {
     // =========================
 
     // Hierro que genera la civilización cada cierto tiempo.
-    int CIVILIZATION_IRON_GENERATED = 1500;
+    int CIVILIZATION_IRON_GENERATED = 3000;
 
     // Madera que genera la civilización cada cierto tiempo.
-    int CIVILIZATION_WOOD_GENERATED = 5000;
+    int CIVILIZATION_WOOD_GENERATED = 10000;
 
     // Comida que genera la civilización cada cierto tiempo.
-    int CIVILIZATION_FOOD_GENERATED = 8000;
+    int CIVILIZATION_FOOD_GENERATED = 16000;
 
     // Maná generado por cada torre mágica.
     int CIVILIZATION_MANA_GENERATED_PER_MAGIC_TOWER = 10;
@@ -302,12 +302,12 @@ public interface Variables {
     // =========================
 
     // Recursos base del primer ejército enemigo.
-    int IRON_BASE_ENEMY_ARMY = 26000;
-    int WOOD_BASE_ENEMY_ARMY = 180000;
-    int FOOD_BASE_ENEMY_ARMY = 70000;
+    int IRON_BASE_ENEMY_ARMY = 4000;
+    int WOOD_BASE_ENEMY_ARMY = 40000;
+    int FOOD_BASE_ENEMY_ARMY = 40000;
 
     // Incremento de recursos del enemigo por batalla.
-    int ENEMY_FLEET_INCREASE = 6;
+    int ENEMY_FLEET_INCREASE = 10;
 
     // =========================
     // WASTE / BOTÍN
