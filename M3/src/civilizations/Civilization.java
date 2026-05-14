@@ -17,8 +17,7 @@ public class Civilization implements Variables{
 	int smithy;
 	int carpentry;
 	int battles;
-	ArrayList<MilitaryUnit>[] army = new ArrayList[9];
-	
+	ArrayList<MilitaryUnit>[] army = (ArrayList<MilitaryUnit>[]) new ArrayList[9];	
 	int upgradeDefenseTechnologyIronCost;
 	int upgradeAttackTechnologyIronCost;
 	int upgradeDefenseTechnologyWoodCost;
@@ -30,8 +29,8 @@ public class Civilization implements Variables{
 	    upgradeDefenseTechnologyWoodCost = UPGRADE_BASE_DEFENSE_TECHNOLOGY_WOOD_COST;
 	    upgradeAttackTechnologyWoodCost = UPGRADE_BASE_ATTACK_TECHNOLOGY_WOOD_COST;
 
-	    army = new ArrayList[9];
-	    for (int i = 0; i < army.length; i++) {
+	    army = (ArrayList<MilitaryUnit>[]) new ArrayList[9];
+	    for (int i = 0; i < 9; i++) {
 	        army[i] = new ArrayList<>();
 	    }
 	}
