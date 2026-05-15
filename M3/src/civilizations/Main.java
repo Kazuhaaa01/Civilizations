@@ -9,11 +9,15 @@ import javax.swing.SwingUtilities;
 public class Main extends Civilization implements Variables {
 
     public static void main(String[] args) {
+    	
+        GameDAO dao = new GameDAO();
 
+    	
         Scanner sc = new Scanner(System.in);
 
         Civilization civilization = new Civilization();
         civilization.generarRecursos();
+        dao.insertCivilization(1, civilization);
 
         final MainMenuGUI[] menuRef = new MainMenuGUI[1];
 
