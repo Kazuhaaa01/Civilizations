@@ -17,7 +17,6 @@ public class Main extends Civilization implements Variables {
 
         Civilization civilization = new Civilization();
         civilization.generarRecursos();
-        dao.insertCivilization(1, civilization);
 
         final MainMenuGUI[] menuRef = new MainMenuGUI[1];
 

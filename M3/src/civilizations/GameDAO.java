@@ -14,6 +14,11 @@ public class GameDAO {
     private static final String DB_PASSWORD = "123";
 
     private Connection getConnection() throws SQLException {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new SQLException("Driver MySQL no encontrado", e);
+        }
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
 
