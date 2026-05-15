@@ -49,7 +49,7 @@ public class GameDAO {
 
     // Guarda la civilizacion en el slot elegido.
     public boolean insertCivilization(int saveSlot, Civilization civ) {
-        String sql = "INSERT INTO civilization_save "
+        String sql = "INSERT INTO civilizations "
                 + "(save_slot, technology_defense, technology_attack, wood, iron, food, mana, "
                 + "magic_tower, church, farm, smithy, carpentry, battles) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
