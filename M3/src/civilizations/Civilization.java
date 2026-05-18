@@ -47,6 +47,10 @@ public class Civilization implements Variables {
 	public void setTechnologyDefense(int technologyDefense) {
 		this.technologyDefense = technologyDefense;
 	}
+	
+	public void setTechnologyAttack(int technologyAtack) {
+		this.technologyAtack = technologyAtack;
+	}
 
 	public int getTechnologyAtack() {
 		return technologyAtack;
@@ -559,5 +563,11 @@ public class Civilization implements Variables {
 				this.army[8].add(unit);
 		}
 	}
+
+	public int getTechnologyAttack() {
+		return technologyAtack;
+	}
+
+
 
 }

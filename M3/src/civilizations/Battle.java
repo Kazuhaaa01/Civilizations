@@ -468,4 +468,8 @@ public class Battle implements Variables {
 
         return report.toString();
     }
+
+
+	
+	
 }

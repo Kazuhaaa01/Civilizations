@@ -27,6 +27,7 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     JLabel lblWood = new JLabel();
     JLabel lblIron = new JLabel();
     JLabel lblMana = new JLabel();
+    
 
     public MainMenuGUI(Civilization civ, Timer timer) {
         super("Civilizations");

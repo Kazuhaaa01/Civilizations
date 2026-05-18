@@ -10,9 +10,14 @@ public class Main extends Civilization implements Variables {
 
     public static void main(String[] args) {
     	
-        GameDAO dao = new GameDAO();
-
-    	
+    	// Ejecutamos directamente el nuevo lanzador gráfico
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                StartMenuGUI menuInicio = new StartMenuGUI();
+                menuInicio.setVisible(true);
+            }
+        });
+    	        
         Scanner sc = new Scanner(System.in);
 
         Civilization civilization = new Civilization();
