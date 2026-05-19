@@ -1,0 +1,89 @@
+<section id="inicio" class="content-section active">
+  <div class="hero-section">
+    <div class="glass-card hero-col-left">
+      <span class="hero-tag">Projecte Civilizations</span>
+      <h2 class="hero-title">Domina l'<br />Univers</h2>
+      <p class="hero-desc">Forja el teu destí, gestiona els teus recursos i conquereix els teus enemics en aquest èpic univers estratègic.</p>
+      <div class="hero-buttons">
+        <button class="btn-primary">Juga Ara</button>
+        <button class="btn-secondary">Saber-ne Més</button>
+      </div>
+    </div>
+
+    <div class="hero-col-right">
+      <div class="glass-card hero-image-placeholder">
+        <span class="hero-image-text">[ Captura de Pantalla del Joc ]</span>
+      </div>
+
+      <div class="hero-stats-grid">
+        <div class="glass-card card-padded">
+          <h3 class="stat-title">Batalles</h3>
+          <div class="stat-value">{{total_batalles}}</div>
+        </div>
+        <div class="glass-card card-padded">
+          <h3 class="stat-title">Atac Civ.</h3>
+          <div class="stat-value">{{tecnologia_atac}}</div>
+        </div>
+        <div class="glass-card card-padded">
+          <h3 class="stat-title">Defensa Civ.</h3>
+          <div class="stat-value">{{tecnologia_defensa}}</div>
+        </div>
+        <div class="glass-card card-padded">
+          <h3 class="stat-title">Estat Proxmox</h3>
+          <div class="stat-value ok">ONLINE</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-margin">
+    <h2 class="section-title">El Joc</h2>
+    <div class="grid-3">
+      <div class="glass-card card-no-margin">
+        <h3 class="card-title-icon"><span class="card-icon">⚔️</span> Combat</h3>
+        <p>Desplega les teves tropes i unitats especials en batalles èpiques per assaltar ciutats enemigues.</p>
+      </div>
+      <div class="glass-card card-no-margin">
+        <h3 class="card-title-icon"><span class="card-icon">🏗️</span> Gestió</h3>
+        <p>Administra els recursos intel·ligentment per expandir el teu imperi i construir grans ciutats.</p>
+      </div>
+      <div class="glass-card card-no-margin">
+        <h3 class="card-title-icon"><span class="card-icon">🔬</span> Tecnologia</h3>
+        <p>Desenvolupa noves tecnologies militars per millorar l'atac i la defensa de les teves tropes.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-margin">
+    <div class="header-with-tag">
+      <h2>Últimes Batalles</h2>
+      <span class="tag-pill">2 INFORMES RECENTS</span>
+    </div>
+    <div class="glass-card card-no-margin">
+      <table class="battle-table">
+        <thead>
+          <tr>
+            <th>Batalla</th>
+            <th>Resultat</th>
+            <th>Pèrdues Enemigues</th>
+            <th>Residus Generats</th>
+            <th>Informe</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each ultimes_batalles}}
+          <tr>
+            <td>{{nom_enemic}}</td>
+            <td class="{{#if guanyada}}victory{{else}}defeat{{/if}}">
+              {{#if guanyada}}Victòria{{else}}Derrota{{/if}}
+            </td>
+            <td>{{baixes_enemigues}}</td>
+            <td>{{residus}}</td>
+            <td><a href="/informe?informe={{id_batalla}}" class="action-link">Ver Detalle</a></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

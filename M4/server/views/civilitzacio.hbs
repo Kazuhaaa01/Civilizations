@@ -1,0 +1,16 @@
+<section class="content-section active">
+  <div class="glass-card">
+    <h2>Estat de la Civilització</h2>
+    <p>Valors de magatzem en temps real extrets directament de la base de dades (Proxmox).</p>
+
+    <div class="resources-grid">
+      {{#each recursos}}
+      <div class="resource-card">
+        <div class="resource-avatar">{{@key}}</div>
+        <h3>{{@key}}</h3>
+        <div class="amount">{{this}}</div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</section>

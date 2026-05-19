@@ -1,0 +1,37 @@
+<section class="content-section active">
+  <div class="header-with-tag">
+    <h2>Historial Complet de Batalles</h2>
+    <div class="total-counter-box">
+      Total jugades: <span class="highlight-number">{{total_batalles}}</span>
+    </div>
+  </div>
+
+  <div class="glass-card">
+    <table class="battle-table">
+      <thead>
+        <tr>
+          <th>Data i Hora</th>
+          <th>Planeta / Enemic</th>
+          <th>Resultat</th>
+          <th>Les Teves Baixes</th>
+          <th>Baixes Enemigues</th>
+          <th>Acció</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each llistat_batalles}}
+        <tr>
+          <td>{{data_batalla}}</td>
+          <td>{{nom_enemic}}</td>
+          <td class="{{#if guanyada}}victory{{else}}defeat{{/if}}">
+            {{#if guanyada}}Victòria{{else}}Derrota{{/if}}
+          </td>
+          <td>{{baixes_propies}}</td>
+          <td>{{baixes_enemigues}}</td>
+          <td><a href="/informe?informe={{id_batalla}}" class="action-link">Veure Informe 📊</a></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</section>

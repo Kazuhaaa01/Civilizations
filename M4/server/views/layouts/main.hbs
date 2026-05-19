@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ca">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Civilizations - Dashboard</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Cinzel:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="glass-header">
+      <div class="logo">
+        <h1>CIVILIZATIONS</h1>
+      </div>
+      <nav>
+        <button class="menu-toggle" aria-label="Obrir menú">☰</button>
+        <ul id="nav-menu">
+          <li><a href="/" class="{{#if page.inicio}}active{{/if}}">Inici</a></li>
+          <li><a href="/batalles" class="{{#if page.batalles}}active{{/if}}">Batalles</a></li>
+          <li><a href="/civilitzacio" class="{{#if page.civilitzacio}}active{{/if}}">Civilització</a></li>
+          <li><a href="/programadors" class="{{#if page.programadors}}active{{/if}}">Equip</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      {{{body}}}
+    </main>
+
+    <footer class="glass-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Projecte Civilizations. Tots els drets reservats.</p>
+        <div class="footer-links">
+          <a href="#">Nota Legal</a>
+          <a href="#">Política de Privacitat</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/main.js"></script>
+  </body>
+</html>

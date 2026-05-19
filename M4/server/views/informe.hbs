@@ -1,0 +1,48 @@
+<section class="content-section active">
+  <div class="glass-card">
+    <div class="header-with-tag">
+      <h2>Informe de Batalla #{{informe.id_batalla}}</h2>
+      <span class="tag-pill {{#if informe.guanyada}}bg-victory{{else}}bg-defeat{{/if}}">
+        {{#if informe.guanyada}}VICTÒRIA{{else}}DERROTA{{/if}}
+      </span>
+    </div>
+    
+    <p class="battle-date">Batalla lliurada el <strong>{{informe.data_batalla}}</strong> contra <strong>{{informe.nom_enemic}}</strong></p>
+    
+    <hr class="separator"/>
+
+    <h3>Recursos Recuperats / Perduts en el Combat</h3>
+    <div class="resources-grid">
+      <div class="resource-card">
+        <img src="/images/recursos/acero.png" alt="Acer" class="resource-icon">
+        <h3>Acer</h3>
+        <div class="amount {{#if informe.guanyada}}positive{{else}}negative{{/if}}">
+          {{informe.acer_recuperat}}
+        </div>
+      </div>
+      
+      <div class="resource-card">
+        <img src="/images/recursos/madera.png" alt="Fusta" class="resource-icon">
+        <h3>Fusta</h3>
+        <div class="amount {{#if informe.guanyada}}positive{{else}}negative{{/if}}">
+          {{informe.fusta_recuperada}}
+        </div>
+      </div>
+
+      <div class="resource-card">
+        <img src="/images/recursos/oro.png" alt="Or" class="resource-icon">
+        <h3>Or</h3>
+        <div class="amount {{#if informe.guanyada}}positive{{else}}negative{{/if}}">
+          {{informe.or_recuperat}}
+        </div>
+      </div>
+    </div>
+
+    <div class="section-margin">
+      <h3>Detalls del Desenvolupament</h3>
+      <p class="hero-desc">{{informe.desenvolupament_text}}</p>
+    </div>
+
+    <a href="/batalles" class="btn-secondary" style="display:inline-block; margin-top:1rem; text-decoration:none;">Tornar al llistat</a>
+  </div>
+</section>
