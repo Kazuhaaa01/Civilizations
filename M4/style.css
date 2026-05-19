@@ -1,11 +1,15 @@
 /* Colores y fuentes */
 :root {
-  --color-bg: #0a0a0a;
-  --color-text: #f5f5f7;
+  --color-bg: #0b0c10;
+  --color-card-bg: #1f2833;
+  --color-text: #eaeaea;
+  --color-text-dim: #9ba4b5;
   --color-gold: #d4af37;
   --color-gold-dim: rgba(212, 175, 55, 0.3);
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --color-crimson: #8b0000;
+
+  --glass-bg: rgba(31, 40, 51, 0.85);
+  --glass-border: rgba(212, 175, 55, 0.15);
 
   --font-heading: "Cinzel", serif; /* Estilo clasico medieval */
   --font-body: "Inter", sans-serif; /* Estilo Apple minimalista */
@@ -21,7 +25,7 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
-  background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000000 100%);
+  background-image: radial-gradient(circle at 50% 0%, #171921 0%, #0b0c10 100%);
   min-height: 100vh;
 }
 
@@ -105,11 +109,14 @@ main {
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--glass-border);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 12px;
   padding: 2.5rem;
   margin-bottom: 2rem;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 4px 6px rgba(11, 12, 16, 0.5),
+    0 10px 15px rgba(11, 12, 16, 0.3),
+    0 25px 30px rgba(11, 12, 16, 0.2);
 }
 
 .glass-card h2 {
@@ -118,7 +125,7 @@ main {
 }
 
 .glass-card p {
-  color: #a1a1a6;
+  color: var(--color-text-dim);
   line-height: 1.6;
 }
 
@@ -131,19 +138,26 @@ main {
 }
 
 .resource-card {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--color-gold-dim);
+  background: var(--color-card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 8px;
   padding: 1.5rem;
   text-align: center;
+  box-shadow:
+    0 4px 6px rgba(11, 12, 16, 0.4),
+    0 10px 15px rgba(11, 12, 16, 0.2);
   transition:
     transform 0.3s ease,
-    border-color 0.3s ease;
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .resource-card:hover {
   transform: translateY(-5px);
   border-color: var(--color-gold);
+  box-shadow:
+    0 8px 12px rgba(11, 12, 16, 0.5),
+    0 15px 25px rgba(11, 12, 16, 0.3);
 }
 
 .resource-card h3 {
@@ -179,4 +193,236 @@ main {
 
 .victory {
   color: #4caf50;
+}
+
+/* Dashboard Sections */
+.section-margin {
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  margin-bottom: 1.5rem;
+}
+
+/* Hero Section */
+.hero-section {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.hero-col-left {
+  flex: 2;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-tag {
+  color: var(--color-gold);
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+}
+
+.hero-desc {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  max-width: 80%;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-primary {
+  background: var(--color-gold);
+  color: black;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: opacity 0.3s ease;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-gold);
+  border: 1px solid var(--color-gold);
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--color-gold-dim);
+}
+
+.hero-col-right {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hero-image-placeholder {
+  flex: 1;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+.hero-image-text {
+  color: var(--color-text-dim);
+}
+
+.hero-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Grids and general utilities */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.card-no-margin {
+  margin-bottom: 0;
+}
+
+.card-padded {
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+/* Typography styles */
+.stat-title {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  color: var(--color-gold);
+  font-family: var(--font-heading);
+}
+
+.stat-value.ok {
+  font-size: 1.2rem;
+  color: #4caf50;
+}
+
+.card-title-icon {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-icon {
+  font-size: 1.2rem;
+}
+
+.header-with-tag {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+.header-with-tag h2 {
+  margin: 0;
+}
+
+.tag-pill {
+  background: var(--color-crimson);
+  color: var(--color-text);
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  border: 1px solid var(--color-crimson);
+  letter-spacing: 1px;
+}
+
+.defeat {
+  color: var(--color-crimson);
+}
+
+.action-link {
+  color: var(--color-gold);
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.action-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+/* Indexed cards */
+.card-indexed {
+  margin-bottom: 0;
+  position: relative;
+}
+
+.card-index-circle {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  width: 35px;
+  height: 35px;
+  background: var(--color-bg);
+  border: 2px solid var(--color-gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gold);
+  font-weight: bold;
+  font-family: var(--font-heading);
+}
+
+.card-title-upper {
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.card-desc-small {
+  font-size: 0.9rem;
 }
