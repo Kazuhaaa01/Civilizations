@@ -29,12 +29,147 @@
     <main>
       <!-- Seccion inicio -->
       <section id="inicio" class="content-section active">
-        <div class="glass-card">
-          <h2>Bienvenido a tu Imperio</h2>
-          <p>
-            Forja tu destino, gestiona tus recursos y conquista a tus enemigos
-            en este épico universo.
-          </p>
+        <!-- Sección Hero -->
+        <div class="hero-section">
+          <!-- Columna Izquierda -->
+          <div class="glass-card hero-col-left">
+            <span class="hero-tag">Proyecto Civilizations</span>
+            <h2 class="hero-title">Domina el<br />Universo</h2>
+            <p class="hero-desc">
+              Forja tu destino, gestiona tus recursos y conquista a tus enemigos
+              en este épico universo estratégico.
+            </p>
+            <div class="hero-buttons">
+              <button class="btn-primary">Jugar Ahora</button>
+              <button class="btn-secondary">Saber Más</button>
+            </div>
+          </div>
+
+          <!-- Columna Derecha -->
+          <div class="hero-col-right">
+            <!-- Contenedor superior para imagen -->
+            <div class="glass-card hero-image-placeholder">
+              <span class="hero-image-text">[ Imagen / Gráfico ]</span>
+            </div>
+
+            <!-- Rejilla interna 2x2 -->
+            <div class="hero-stats-grid">
+              <div class="glass-card card-padded">
+                <h3 class="stat-title">Batallas</h3>
+                <div id="stat-battles" class="stat-value">-</div>
+              </div>
+              <div class="glass-card card-padded">
+                <h3 class="stat-title">Tec. Ataque</h3>
+                <div id="stat-attack" class="stat-value">-</div>
+              </div>
+              <div class="glass-card card-padded">
+                <h3 class="stat-title">Tec. Defensa</h3>
+                <div id="stat-defense" class="stat-value">-</div>
+              </div>
+              <div class="glass-card card-padded">
+                <h3 class="stat-title">Estado</h3>
+                <div id="stat-status" class="stat-value ok">-</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección EL JUEGO -->
+        <div class="section-margin">
+          <h2 class="section-title">El Juego</h2>
+          <div class="grid-3">
+            <div class="glass-card card-no-margin">
+              <h3 class="card-title-icon">
+                <span class="card-icon">⚔️</span> Combate
+              </h3>
+              <p>
+                Despliega tus tropas y unidades especiales en batallas épicas
+                por asaltar ciudades enemigas.
+              </p>
+            </div>
+            <div class="glass-card card-no-margin">
+              <h3 class="card-title-icon">
+                <span class="card-icon">🏗️</span> Gestión
+              </h3>
+              <p>
+                Administra los recursos inteligentemente para expandir tu
+                imperio y construir grandes ciudades.
+              </p>
+            </div>
+            <div class="glass-card card-no-margin">
+              <h3 class="card-title-icon">
+                <span class="card-icon">🔬</span> Tecnología
+              </h3>
+              <p>
+                Desarrolla nuevas tecnologías militares para mejorar el ataque y
+                la defensa de tus tropas.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección ÚLTIMAS BATALLAS -->
+        <div class="section-margin">
+          <div class="header-with-tag">
+            <h2>Últimas Batallas</h2>
+            <span class="tag-pill">2 INFORMES RECIENTES</span>
+          </div>
+          <div class="glass-card card-no-margin">
+            <table class="battle-table">
+              <thead>
+                <tr>
+                  <th>Batalla</th>
+                  <th>Resultado</th>
+                  <th>Pérdidas Enemigas</th>
+                  <th>Residuos Generados</th>
+                  <th>Informe</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Incursión a Cartago</td>
+                  <td class="victory">Victoria</td>
+                  <td>2,450</td>
+                  <td>120 Acero, 40 Madera</td>
+                  <td><a href="#" class="action-link">Ver Detalle</a></td>
+                </tr>
+                <tr>
+                  <td>Defensa de Roma</td>
+                  <td class="defeat">Derrota</td>
+                  <td>850</td>
+                  <td>300 Acero, 100 Madera</td>
+                  <td><a href="#" class="action-link">Ver Detalle</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Sección SECCIONES DE LA WEB -->
+        <div>
+          <h2 class="section-title">Secciones de la Web</h2>
+          <div class="grid-4">
+            <div class="glass-card card-indexed">
+              <div class="card-index-circle">1</div>
+              <h3 class="card-title-upper">Inicio</h3>
+              <p class="card-desc-small">Dashboard principal de control.</p>
+            </div>
+            <div class="glass-card card-indexed">
+              <div class="card-index-circle">2</div>
+              <h3 class="card-title-upper">Juego</h3>
+              <p class="card-desc-small">Motor del simulador y batallas.</p>
+            </div>
+            <div class="glass-card card-indexed">
+              <div class="card-index-circle">3</div>
+              <h3 class="card-title-upper">Civilización</h3>
+              <p class="card-desc-small">Gestión de recursos y ciudad.</p>
+            </div>
+            <div class="glass-card card-indexed">
+              <div class="card-index-circle">4</div>
+              <h3 class="card-title-upper">Equipo</h3>
+              <p class="card-desc-small">Acerca de los desarrolladores.</p>
+            </div>
+          </div>
         </div>
       </section>
 
