@@ -262,8 +262,9 @@ public class GameDAO {
                 civ.setTechnologyDefense(rsCiv.getInt("technology_defense_level"));
                 civ.setTechnologyAtack(rsCiv.getInt("technology_attack_level"));
                 civ.setBattles(rsCiv.getInt("battles_counter"));
-                civ.updateArmy(new ArrayList<MilitaryUnit>()); // Inicializa la lista plana en blanco
-            } else {
+                ArrayList<MilitaryUnit> army = new ArrayList<>();
+                civ.updateArmy(army);
+                } else {
                 return null; // Slot vacío
             }
 

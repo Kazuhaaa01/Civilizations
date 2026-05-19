@@ -28,12 +28,18 @@ public class MainMenuGUI extends JFrame implements ActionListener {
     JLabel lblIron = new JLabel();
     JLabel lblMana = new JLabel();
     
+    private int saveSlot;
+    private GameDAO gameDAO;
+    
 
-    public MainMenuGUI(Civilization civ, Timer timer) {
+    public MainMenuGUI(Civilization civ, Timer timer, int saveSlot, GameDAO gameDAO) {
         super("Civilizations");
         this.civ = civ;
         this.timer = timer;
-
+        this.saveSlot = saveSlot;
+        this.gameDAO = gameDAO;
+        refrescarUI();
+        
         setPreferredSize(new Dimension(900, 600));
         pack();
         
@@ -206,14 +212,50 @@ public class MainMenuGUI extends JFrame implements ActionListener {
         } else if (font == btnUpgrade) {
             setContent(new UpgradePanel(civ));
         } else if (font == btnViewStats) {
-            setContent(new StatsPanel(civ));
+        	StatsPanel panel = new StatsPanel(civ);
+        	panel.refresh();
+        	setContent(panel);
         } else if (font == btnBattleResults) {
             displayBattleReport();
         } else if (font == btnExit) {
-            timer.cancel();
-            System.exit(0);
+            guardarYSalir();
         }
 
         repaint();
+    }
+    
+    private void guardarYSalir() {
+
+        timer.cancel();
+
+        boolean guardado = gameDAO.saveGame(saveSlot, civ);
+
+        if (guardado) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Partida guardada correctamente."
+            );
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Error al guardar la partida.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+
+        dispose();
+        System.exit(0);
+    }
+    
+    private void refrescarUI() {
+        actualizarRecursos();
+        if (panelContent != null) {
+            panelContent.revalidate();
+            panelContent.repaint();
+        }
     }
 }

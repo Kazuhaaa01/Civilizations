@@ -22,7 +22,6 @@ public class StartMenuGUI extends JFrame {
         setPreferredSize(new Dimension(360, 280));
         setResizable(false);
         setLayout(new GridBagLayout());
-
         getContentPane().setBackground(new Color(40, 40, 40));
 
         Font fuenteBotones = new Font("Arial", Font.BOLD, 13);
@@ -33,7 +32,6 @@ public class StartMenuGUI extends JFrame {
         estilarBoton(btnSalir, fuenteBotones, tamañoBotones);
 
         GridBagConstraints gbc = new GridBagConstraints();
-
         gbc.gridx = 0;
         gbc.insets = new Insets(8, 10, 8, 10);
 
@@ -61,89 +59,53 @@ public class StartMenuGUI extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void estilarBoton(JButton btn, Font fuente, Dimension tamaño) {
-
-        btn.setFont(fuente);
-        btn.setPreferredSize(tamaño);
-
+    private void estilarBoton(JButton btn, Font f, Dimension d) {
+        btn.setFont(f);
+        btn.setPreferredSize(d);
         btn.setBackground(new Color(65, 65, 65));
         btn.setForeground(Color.WHITE);
-
         btn.setFocusPainted(false);
-
-        btn.setBorder(
-                BorderFactory.createLineBorder(
-                        new Color(90, 90, 90),
-                        1
-                )
-        );
+        btn.setBorder(BorderFactory.createLineBorder(new Color(80, 80, 80), 1));
     }
 
     private void gestionarNuevaPartida() {
 
-        String input = JOptionPane.showInputDialog(
-                this,
-                "Introduce el número de Slot:",
+        String input = JOptionPane.showInputDialog(this,
+                "Introduce slot:",
                 "Nueva Partida",
-                JOptionPane.QUESTION_MESSAGE
-        );
+                JOptionPane.QUESTION_MESSAGE);
 
-        if (input == null || input.trim().isEmpty()) {
-            return;
-        }
+        if (input == null || input.trim().isEmpty()) return;
 
         try {
 
             int slot = Integer.parseInt(input);
 
-            Civilization nuevaCiv = new Civilization();
+            Civilization civ = new Civilization();
+            civ.food = 10000;
+            civ.wood = 10000;
+            civ.iron = 5000;
+            civ.mana = 0;
 
-            nuevaCiv.food = 10000;
-            nuevaCiv.wood = 10000;
-            nuevaCiv.iron = 5000;
-            nuevaCiv.mana = 0;
+            civ.updateArmy(new ArrayList<MilitaryUnit>());
 
-            nuevaCiv.updateArmy(new ArrayList<MilitaryUnit>());
-
-            boolean guardado = gameDAO.saveGame(slot, nuevaCiv);
-
-            if (guardado) {
-
-                arrancarCicloDeJuego(slot, nuevaCiv);
-
-            } else {
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        "No se pudo guardar la partida.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
+            if (gameDAO.saveGame(slot, civ)) {
+                arrancarCicloDeJuego(slot, civ);
             }
 
         } catch (NumberFormatException ex) {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Introduce un número válido.",
-                    "Error",
-                    JOptionPane.WARNING_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this, "Número inválido");
         }
     }
 
     private void gestionarCargarPartida() {
 
-        String input = JOptionPane.showInputDialog(
-                this,
-                "Introduce el Slot:",
+        String input = JOptionPane.showInputDialog(this,
+                "Introduce slot:",
                 "Cargar Partida",
-                JOptionPane.QUESTION_MESSAGE
-        );
+                JOptionPane.QUESTION_MESSAGE);
 
-        if (input == null || input.trim().isEmpty()) {
-            return;
-        }
+        if (input == null || input.trim().isEmpty()) return;
 
         try {
 
@@ -152,27 +114,11 @@ public class StartMenuGUI extends JFrame {
             Civilization civ = gameDAO.loadGame(slot);
 
             if (civ != null) {
-
                 arrancarCicloDeJuego(slot, civ);
-
-            } else {
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        "No existe ninguna partida en ese slot.",
-                        "Slot vacío",
-                        JOptionPane.WARNING_MESSAGE
-                );
             }
 
         } catch (NumberFormatException ex) {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Introduce un número válido.",
-                    "Error",
-                    JOptionPane.WARNING_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this, "Número inválido");
         }
     }
 
@@ -180,7 +126,7 @@ public class StartMenuGUI extends JFrame {
 
         Timer timer = new Timer();
 
-        MainMenuGUI juegoGUI = new MainMenuGUI(civilization, timer);
+        MainMenuGUI juegoGUI = new MainMenuGUI(civilization, timer, saveSlot, gameDAO);
 
         TimerTask task = new TimerTask() {
 
@@ -196,8 +142,6 @@ public class StartMenuGUI extends JFrame {
 
                 if (minutosTranscurridos % 3 == 0) {
 
-                    System.out.println("⚔ Un ejército enemigo se aproxima...");
-
                     ArrayList<MilitaryUnit> enemyArmy =
                             Main.createEnemyArmy(numeroBatalla);
 
@@ -208,31 +152,33 @@ public class StartMenuGUI extends JFrame {
                     int enemigosInicio = enemyArmy.size();
 
                     Battle battle = new Battle(myArmy, enemyArmy);
-
                     battle.startBattle();
 
                     int aliadosFin = myArmy.size();
                     int enemigosFin = enemyArmy.size();
 
-                    String development =
-                            battle.getBattleDevelopment();
+                    String development = battle.getBattleDevelopment();
+                    String summary = battle.getBattleReport(numeroBatalla);
 
-                    String summary =
-                            battle.getBattleReport(numeroBatalla);
-
-                    String report =
-                            development + "\n" + summary;
+                    String report = development + "\n" + summary;
 
                     civilization.updateArmy(myArmy);
-
                     battle.resetArmyArmor();
 
                     civilization.setBattles(numeroBatalla);
 
                     gameDAO.saveGame(saveSlot, civilization);
 
-                    SwingUtilities.invokeLater(() -> {
+                    // 🔥 AQUÍ ES DONDE VA INSERTBATTLE
+                    gameDAO.insertBattle(
+                            saveSlot,
+                            numeroBatalla,
+                            summary,
+                            development,
+                            "UNKNOWN"
+                    );
 
+                    SwingUtilities.invokeLater(() -> {
                         juegoGUI.showBattleAnim(
                                 aliadosInicio,
                                 enemigosInicio,
@@ -250,7 +196,6 @@ public class StartMenuGUI extends JFrame {
         timer.schedule(task, 60000, 60000);
 
         juegoGUI.setVisible(true);
-
         this.dispose();
     }
 }
